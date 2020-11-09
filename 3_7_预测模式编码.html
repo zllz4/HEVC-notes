@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>预测模式编码 - HEVC</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="1_HEVC 的基本介绍.html"><strong aria-hidden="true">1.</strong> HEVC 的基本介绍</a></li><li class="chapter-item expanded "><a href="2_HEVC 编解码流程.html"><strong aria-hidden="true">2.</strong> HEVC 编解码流程</a></li><li class="chapter-item expanded affix "><li class="part-title">编解码流程</li><li class="chapter-item expanded "><a href="3_HEVC 的帧内编码.html"><strong aria-hidden="true">3.</strong> HEVC 的帧内编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="3_1_帧内编码模式.html"><strong aria-hidden="true">3.1.</strong> 帧内编码模式</a></li><li class="chapter-item expanded "><a href="3_2_参考像素补全.html"><strong aria-hidden="true">3.2.</strong> 参考像素补全</a></li><li class="chapter-item expanded "><a href="3_3_参考像素滤波.html"><strong aria-hidden="true">3.3.</strong> 参考像素滤波</a></li><li class="chapter-item expanded "><a href="3_4_参考像素投影.html"><strong aria-hidden="true">3.4.</strong> 参考像素投影</a></li><li class="chapter-item expanded "><a href="3_5_像素预测.html"><strong aria-hidden="true">3.5.</strong> 像素预测</a></li><li class="chapter-item expanded "><a href="3_6_后处理滤波.html"><strong aria-hidden="true">3.6.</strong> 后处理滤波</a></li><li class="chapter-item expanded "><a href="3_7_预测模式编码.html" class="active"><strong aria-hidden="true">3.7.</strong> 预测模式编码</a></li><li class="chapter-item expanded "><a href="3_8_最佳预测模式搜索.html"><strong aria-hidden="true">3.8.</strong> 最佳预测模式搜索</a></li></ol></li><li class="chapter-item expanded "><a href="4_HEVC 的帧间编码.html"><strong aria-hidden="true">4.</strong> HEVC 的帧间编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4_1_播放顺序与解码顺序.html"><strong aria-hidden="true">4.1.</strong> 播放顺序与解码顺序</a></li><li class="chapter-item expanded "><a href="4_2_亚精度像素插值.html"><strong aria-hidden="true">4.2.</strong> 亚精度像素插值</a></li><li class="chapter-item expanded "><a href="4_3_Merge 模式.html"><strong aria-hidden="true">4.3.</strong> Merge 模式</a></li><li class="chapter-item expanded "><a href="4_4_AMVP 模式.html"><strong aria-hidden="true">4.4.</strong> AMVP 模式</a></li><li class="chapter-item expanded "><a href="4_5_MV 搜索算法.html"><strong aria-hidden="true">4.5.</strong> MV 搜索算法</a></li><li class="chapter-item expanded "><a href="4_6_加权像素预测.html"><strong aria-hidden="true">4.6.</strong> 加权像素预测</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">HEVC</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#预测模式编码" id="预测模式编码">预测模式编码</a></h1>
+<h3><a class="header" href="#亮度-pb-区块" id="亮度-pb-区块">亮度 PB 区块</a></h3>
+<p>HEVC 的亮度 PB 区块帧内预测模式编码规则为，先<strong>从邻近左侧和上侧的 PU 依据某规则推断出三个不重复的最可能被选择的候选预测模式</strong>，若所选择的最佳预测模式正好为依此规则推断出的三个候选模式，则<strong>编码所选模式在三个候选模式排序列表中的索引</strong>，若不为，则<strong>采用 5bit 编码所选模式在全部 35 种预测模式去掉 3 个候选模式后剩余 32 个模式排序列表中的索引</strong></p>
+<p>三个候选模式的选定规则如下：</p>
+<ol>
+<li>
+<p>设左侧 PU 的 PU 的预测模式为 A，上侧 PU 的预测模式是 B，当 <strong>A B 不相等</strong>时</p>
+<p><img src="markdown_images/Untitled-1604935482610.png" alt="%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%BC%8F%E7%BC%96%E7%A0%81%201ba563115bb64f0bb2a7c7ff6d4c6c65/Untitled.png" /></p>
+<p>如果 A B 不等，那么三个候选模式<strong>一个 A 一个 B，最后一个选 Planar、DC 或者模式 26</strong>（前者被选了选后者）</p>
+</li>
+<li>
+<p>当 <strong>A B 相等</strong>时</p>
+<p><img src="markdown_images/Untitled%201-1604935482610.png" alt="%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%BC%8F%E7%BC%96%E7%A0%81%201ba563115bb64f0bb2a7c7ff6d4c6c65/Untitled%201.png" /></p>
+<p>在一般情况下：</p>
+<ul>
+<li>
+<p>如果 AB 是 DC 或者 Planar，那么三个模式就<strong>一个 Planar 一个 DC 一个 26</strong></p>
+</li>
+<li>
+<p>如果 AB 是角度模式，那么三个模式就<strong>一个 A  一个 A-1 模式 一个 A+1 模式</strong></p>
+<blockquote>
+<p>比如如果 A 是 20 模式，那么 MPM[1] 是 19 模式，MPM[2] 是 21 模式</p>
+</blockquote>
+</li>
+</ul>
+<p>需要注意两个特殊情况：</p>
+<ul>
+<li>如果 A 是 2 模式，那么 MPM[1] 是 33 模式，MPM[2] 是 3 模式</li>
+<li>如果 A 是 34 模式，那么同样也是 MPM[1] 是 33 模式，MPM[2] 是 3 模式</li>
+</ul>
+</li>
+<li>
+<p>如果 A B 模式可能不可用时</p>
+<ol>
+<li>当左侧或上侧 PU 不是帧内编码模式或者是采用 PCM 模式时其预测模式被设为 DC 模式</li>
+<li>当上侧的 PU 超出 CTU 范围时 B 同样被设为 DC 模式</li>
+</ol>
+</li>
+</ol>
+<p>其流程可以总结为下图</p>
+<p><img src="markdown_images/Untitled%202-1604935482610.png" alt="%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%BC%8F%E7%BC%96%E7%A0%81%201ba563115bb64f0bb2a7c7ff6d4c6c65/Untitled%202.png" /></p>
+<p>亮度 PB 区块三个候选模式（MPM）的预测流程</p>
+<p><code>prev_intra_luma_pred_flag</code> 确定亮度区块的最佳预测模式是否为三个预测的最佳模式之一（但是没在程序里搜到这个），<code>rem_intra_luma_pred_mode</code> 用于存储当 <code>prev_intra_luma_pred_flag</code> 为 <code>0</code> 时直接编码的亮度区块的最佳预测模式，通过 <code>rem_intra_luma_pred_mode</code> 推断实际预测模式序号的方法如下</p>
+<p><img src="markdown_images/Untitled%203-1604935482610.png" alt="%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%BC%8F%E7%BC%96%E7%A0%81%201ba563115bb64f0bb2a7c7ff6d4c6c65/Untitled%203.png" /></p>
+<blockquote>
+<p>注意是大于<strong>等于</strong></p>
+</blockquote>
+<h3><a class="header" href="#色度-pb-区块" id="色度-pb-区块">色度 PB 区块</a></h3>
+<p>色度 PB 区块的编码不进行候选预测模式的选择，而是依照如下规则进行直接编码</p>
+<p><img src="markdown_images/Untitled%204.png" alt="%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%BC%8F%E7%BC%96%E7%A0%81%201ba563115bb64f0bb2a7c7ff6d4c6c65/Untitled%204.png" /></p>
+<p>色度预测模式编码的具体实现可参考 <strong><code>TEncSbac::codeIntraDirChroma</code></strong> <strong>函数</strong>，色度预测模式解码的具体实现可参考 <strong><code>TDecSbac::parseIntraDirChroma</code></strong> <strong>函数</strong>， 由编码函数可见，编码逻辑为首先判断色度预测模式是否为<strong>推断模式</strong>（DM_CHROMA_IDX），若是，<strong>在码流中输出一个标志位 0，之后编码结束</strong>，若不是，则<strong>在码流中输出一个标志位 1，之后输出所选择的色度 PB 区块预测模式在前四种预测模式</strong>（PLanar DC 模式10 模式26）<strong>排序序列中的索引，也就是 00 01 10 11</strong>，最后编码结果就如上图 Table 4.5，解码函数也依照此规则解码</p>
+<ul>
+<li>
+<p><strong><code>TEncSbac::codeIntraDirChroma</code></strong> 色度预测模式编码函数代码</p>
+<pre><code class="language-cpp">Void TEncSbac::codeIntraDirChroma( TComDataCU* pcCU, UInt uiAbsPartIdx )
+{
+  UInt uiIntraDirChroma = pcCU-&gt;getIntraDir( CHANNEL_TYPE_CHROMA, uiAbsPartIdx );
+
+	// 判断是否为推断模式
+  if( uiIntraDirChroma == DM_CHROMA_IDX )
+  {
+		// 是，编码标志位 0
+    m_pcBinIf-&gt;encodeBin( 0, m_cCUChromaPredSCModel.get( 0, 0, 0 ) );
+  }
+  else
+  {
+		// 否，编码标志位 1
+    m_pcBinIf-&gt;encodeBin( 1, m_cCUChromaPredSCModel.get( 0, 0, 0 ) );
+
+    UInt uiAllowedChromaDir[ NUM_CHROMA_MODE ];
+    pcCU-&gt;getAllowedChromaDir( uiAbsPartIdx, uiAllowedChromaDir );
+
+		// 编码选择的色度预测模式的索引
+    for( Int i = 0; i &lt; NUM_CHROMA_MODE - 1; i++ )
+    {
+      if( uiIntraDirChroma == uiAllowedChromaDir[i] )
+      {
+        uiIntraDirChroma = i;
+        break;
+      }
+    }
+
+    m_pcBinIf-&gt;encodeBinsEP( uiIntraDirChroma, 2 );
+  }
+
+  return;
+}
+</code></pre>
+</li>
+<li>
+<p><strong><code>TDecSbac::parseIntraDirChroma</code></strong> 色度预测模式解码函数代码</p>
+<pre><code class="language-cpp">Void TDecSbac::parseIntraDirChroma( TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth )
+{
+  UInt uiSymbol;
+#if RExt__DECODER_DEBUG_BIT_STATISTICS
+  const TComCodingStatisticsClassType ctype(STATS__CABAC_BITS__INTRA_DIR_ANG, g_aucConvertToBit[pcCU-&gt;getSlice()-&gt;getSPS()-&gt;getMaxCUWidth()&gt;&gt;uiDepth]+2, CHANNEL_TYPE_CHROMA);
+#endif
+
+  m_pcTDecBinIf-&gt;decodeBin( uiSymbol, m_cCUChromaPredSCModel.get( 0, 0, 0 ) RExt__DECODER_DEBUG_BIT_STATISTICS_PASS_OPT_ARG(ctype) );
+  // 标志位是 0，则预测模式为推断模式
+	if( uiSymbol == 0 )
+  {
+    uiSymbol = DM_CHROMA_IDX;
+  }
+	// 标志位是 1，则从 uiAllowedChromaDir（就是 uiModeList）通过索引恢复选择的预测模式
+  else
+  {
+    UInt uiIPredMode;
+    m_pcTDecBinIf-&gt;decodeBinsEP( uiIPredMode, 2 RExt__DECODER_DEBUG_BIT_STATISTICS_PASS_OPT_ARG(ctype) );
+    UInt uiAllowedChromaDir[ NUM_CHROMA_MODE ];
+    pcCU-&gt;getAllowedChromaDir( uiAbsPartIdx, uiAllowedChromaDir );
+    uiSymbol = uiAllowedChromaDir[ uiIPredMode ];
+  }
+
+  pcCU-&gt;setIntraDirSubParts( CHANNEL_TYPE_CHROMA, uiSymbol, uiAbsPartIdx, uiDepth );
+}
+</code></pre>
+</li>
+</ul>
+<p>色度编码模式默认的排列序列 <code>uiModeList</code> 由 <strong><code>TComDataCU::getAllowedChromaDir</code></strong> 函数生成，其逻辑如下</p>
+<ol>
+<li>
+<p>如果<strong>亮度 PB 的预测模式不为 0，1，10，26 之一</strong>，那么 <code>uiModeList</code> 为</p>
+<pre><code class="language-cpp">  uiModeList[0] = PLANAR_IDX;
+  uiModeList[1] = VER_IDX;
+  uiModeList[2] = HOR_IDX;
+  uiModeList[3] = DC_IDX;
+  uiModeList[4] = DM_CHROMA_IDX;
+</code></pre>
+</li>
+<li>
+<p>如果<strong>亮度 PB 的预测模式为这四种模式之一</strong>，那么将在上式的基础上，执行以下代码，把 <code>uiModeList</code> 中<strong>等于亮度 PB 预测模式的那个值</strong>换成 34</p>
+<pre><code class="language-cpp">for( Int i = 0; i &lt; NUM_CHROMA_MODE - 1; i++ )
+  {
+    if( uiLumaMode == uiModeList[i] )
+    {
+      uiModeList[i] = 34; // VER+8 mode
+      break;
+    }
+  }
+</code></pre>
+</li>
+</ol>
+<h3><a class="header" href="#补充" id="补充">补充</a></h3>
+<ol>
+<li>H.264 在编码亮度 PB 区块的预测模式时只会推断一个最可能的候选模式</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="3_6_后处理滤波.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="3_8_最佳预测模式搜索.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="3_6_后处理滤波.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="3_8_最佳预测模式搜索.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
