@@ -45,6 +45,9 @@
         
 
         
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -168,7 +171,7 @@
 <p>运动估计分为两种方法，一种是 <strong>Merge（含 Skip）方法</strong>，<strong>通过空域和时域相邻区块的运动信息得到当前区块的运动信息，<strong>另一种是 <strong>AMVP</strong>（Advanced Motion Vector Prediction） <strong>方法</strong>，其分为两个过程，一为 <strong>MV 预测</strong>，二为 <strong>MV 搜索，<strong>MV 预测</strong>通过空域和时域相邻区块的 MV 得到当前区块的 MVP</strong>（motion vector predictor），MV 搜索</strong>以当前区块的 MVP 为起点搜索以获得当前区块的最优 MV，得到 MVD</strong>（motion vector difference，MV 同样采用<strong>预测编码</strong>，预测值为 MVP，传输值 MVD=MV-MVP），主要的搜索算法是 <strong>TZSearch</strong></p>
 <p>运动信息（Motion Data）包含<strong>运动向量</strong>（Motion Vectors）和<strong>参考图像索引</strong>（Reference Indices），其示意图如下</p>
 <p><img src="markdown_images/Untitled-1604936140294.png" alt="HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled.png" /></p>
-<p>$(\Delta x,\ \Delta y)$ 构成运动向量，$\Delta t$ 为参考图像索引，$(\Delta x,\Delta y,\Delta t)$ 构成运动信息</p>
+<p>\( (\Delta x,\ \Delta y) \) 构成运动向量，\( \Delta t \) 为参考图像索引，\( (\Delta x,\Delta y,\Delta t) \) 构成运动信息</p>
 <p>运动补偿分为<strong>亚精度插值</strong>（Fractional Sample Interpolation）、<strong>像素值预测</strong>（Motion Compensated Predictor）和<strong>预测结果加权</strong>（Weighted Sample Prediction）三个部分</p>
 <p>HEVC 帧间编码总流程的示意图如下</p>
 <p><img src="markdown_images/Untitled%201-1604936140295.png" alt="HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled%201.png" /></p>

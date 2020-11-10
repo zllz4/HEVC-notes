@@ -47,6 +47,9 @@
         
 
         
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -186,7 +189,7 @@
 <h1><a class="header" href="#帧内编码模式" id="帧内编码模式">帧内编码模式</a></h1>
 <p>帧内编码时，<strong>在 PU 层次选择帧内预测模式</strong>，<strong>在 TU 层次进行帧内编码</strong>，对于<strong>亮度 PB 区块</strong>，其帧内预测有 <strong>35 种模式</strong>，包括 <strong>33 种角度模式</strong>和 <strong>Planar 模式</strong>以及 <strong>DC 模式</strong>，其中 Planar 模式编号为 0，DC 模式编号为 1，其余的角度模式编号为 2~34，角度模式用于<strong>像素具有纹理变化</strong>的区块，Planar 模式适用于<strong>像素颜色缓慢变化</strong>的区块，DC 模式用于<strong>像素颜色大面积平坦</strong>的区块，角度模式编号与方向关系如下图</p>
 <p><img src="markdown_images/Untitled.png" alt="%E5%B8%A7%E5%86%85%E7%BC%96%E7%A0%81%E6%A8%A1%E5%BC%8F%20027617919ccc45779ca93deb99ea86c0/Untitled.png" /></p>
-<p>由图可见，角度模式编号<strong>按顺时针方向增加</strong>，<strong>越靠近垂直和水平方向越密</strong>，其精度为 $\frac{1}{32}$，值得注意的两个模式是 <strong>10 模式 (水平模式)</strong> 和 <strong>26 模式（垂直模式）</strong></p>
+<p>由图可见，角度模式编号<strong>按顺时针方向增加</strong>，<strong>越靠近垂直和水平方向越密</strong>，其精度为 \( \frac{1}{32} \)，值得注意的两个模式是 <strong>10 模式 (水平模式)</strong> 和 <strong>26 模式（垂直模式）</strong></p>
 <p>不同的角度模式有不同的<strong>角度参数 A</strong>（就是图上 V 和 H 减的那个数），其与模式之间的关系表格如下</p>
 <p><img src="markdown_images/Untitled%201.png" alt="%E5%B8%A7%E5%86%85%E7%BC%96%E7%A0%81%E6%A8%A1%E5%BC%8F%20027617919ccc45779ca93deb99ea86c0/Untitled%201.png" /></p>
 <p>不同帧内预测模式直观效果展示如下（图中 DC 和 10、26 模式经过了后处理滤波）</p>
@@ -244,10 +247,10 @@
 <p><img src="markdown_images/Untitled%202-1604934906969.png" alt="%E5%8F%82%E8%80%83%E5%83%8F%E7%B4%A0%E6%8A%95%E5%BD%B1%2075e8ff2e12514b38a8fb4d0889ab5797/Untitled%202.png" /></p>
 <p>参数 B 查找表</p>
 <p>对上图例子的解释：</p>
-<p>在上图中采用的是帧内预测模式 23，因此 $A=-9,\ B=-910$</p>
-<p>$ref[0]=p[-1][-1]$</p>
-<p>当 $x=-1$ 时，$ref[-1]=p[-1][-1+((-1*(-910)+128)&gt;&gt;8)]=p[-1][3]$</p>
-<p>当 $x=-2$ 时，$ref[-2]=p[-1][-1+((-2*(-910)+128)&gt;&gt;8)]=p[-1][6]$</p>
+<p>在上图中采用的是帧内预测模式 23，因此 \( A=-9,\ B=-910 \)</p>
+<p>\( ref[0]=p[-1][-1] \)</p>
+<p>当 \( x=-1 \) 时，\(  ref[-1]=p[-1][-1+((-1*(-910)+128)&gt;&gt;8)]=p[-1][3]  \)</p>
+<p>当 \( x=-2 \) 时，\( ref[-2]=p[-1][-1+((-2*(-910)+128)&gt;&gt;8)]=p[-1][6] \)</p>
 <h1><a class="header" href="#像素预测" id="像素预测">像素预测</a></h1>
 <p>在像素预测中，角度模式、DC 模式以及 Planar 模式分别有不同的预测规则</p>
 <ol>
@@ -255,7 +258,7 @@
 <p><strong>角度模式</strong></p>
 <p><img src="markdown_images/Untitled-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled.png" /></p>
 <p>角度模式预测规则</p>
-<p>把待预测的像素 p[x][y] 投影到待预测像素序列的某个位置上（这个位置的精度为 $\frac{1}{32}$，如果 f 是 0 或者 32，那么是正好投影在某个 $ref[x+i+n]$ 上，如果 f 有值，那么就是投影在 $ref[x+i+1]$ 和 $ref[x+i+2]$ 之间，通过这两个参考像素之间的插值确定 p[x][y] 的值，可以看作在 $ref[x+i+1]$ 和 $ref[x+i+2]$ 之间划分了 32 个区域，每个区域对应一个插值，p[x][y] 落在哪个区域中就用哪个区域的插值，所以说精度为 $\frac{1}{32}$）</p>
+<p>把待预测的像素 p[x][y] 投影到待预测像素序列的某个位置上（这个位置的精度为 \( \frac{1}{32} \)，如果 f 是 0 或者 32，那么是正好投影在某个 \( ref[x+i+n] \) 上，如果 f 有值，那么就是投影在 \( ref[x+i+1] \) 和 \( ref[x+i+2] \) 之间，通过这两个参考像素之间的插值确定 p[x][y] 的值，可以看作在 \( ref[x+i+1] \) 和 \( ref[x+i+2] \) 之间划分了 32 个区域，每个区域对应一个插值，p[x][y] 落在哪个区域中就用哪个区域的插值，所以说精度为 \( \frac{1}{32} \)）</p>
 </li>
 <li>
 <p><strong>DC 模式</strong></p>
@@ -267,7 +270,7 @@
 <p><img src="markdown_images/Untitled%201-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled%201.png" /></p>
 <p><img src="markdown_images/Untitled%202-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled%202.png" /></p>
 <p><img src="markdown_images/Untitled%203-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled%203.png" /></p>
-<p>Planar 模式的预测结果就是像素的垂直方向预测值 $p_v$ 与像素水平方向预测值 $p_h$ 的平均，垂直方向预测值就是 p[-1][N] 与 p[x][-1] 进行一个 N 个值的线性插值，每块（每个 x）一个值，p[x][y] 在哪块就是哪个值，水平方向预测值同理，p[-1][y] 与 p[N][-1]  进行一个 N 个值的线性插值，每块（每个 y）一个值，p[x][y] 在哪块就是哪个值</p>
+<p>Planar 模式的预测结果就是像素的垂直方向预测值 \( p_v \) 与像素水平方向预测值 \( p_h \) 的平均，垂直方向预测值就是 p[-1][N] 与 p[x][-1] 进行一个 N 个值的线性插值，每块（每个 x）一个值，p[x][y] 在哪块就是哪个值，水平方向预测值同理，p[-1][y] 与 p[N][-1]  进行一个 N 个值的线性插值，每块（每个 y）一个值，p[x][y] 在哪块就是哪个值</p>
 <p>像素预测代码见 <strong><code>TComPrediction::predIntraAng</code></strong> 函数</p>
 </li>
 </ol>
@@ -474,7 +477,7 @@ pcCU-&gt;setIntraDirSubParts( CHANNEL_TYPE_CHROMA, uiBestMode, uiPartOffset, uiD
 <p>运动估计分为两种方法，一种是 <strong>Merge（含 Skip）方法</strong>，<strong>通过空域和时域相邻区块的运动信息得到当前区块的运动信息，<strong>另一种是 <strong>AMVP</strong>（Advanced Motion Vector Prediction） <strong>方法</strong>，其分为两个过程，一为 <strong>MV 预测</strong>，二为 <strong>MV 搜索，<strong>MV 预测</strong>通过空域和时域相邻区块的 MV 得到当前区块的 MVP</strong>（motion vector predictor），MV 搜索</strong>以当前区块的 MVP 为起点搜索以获得当前区块的最优 MV，得到 MVD</strong>（motion vector difference，MV 同样采用<strong>预测编码</strong>，预测值为 MVP，传输值 MVD=MV-MVP），主要的搜索算法是 <strong>TZSearch</strong></p>
 <p>运动信息（Motion Data）包含<strong>运动向量</strong>（Motion Vectors）和<strong>参考图像索引</strong>（Reference Indices），其示意图如下</p>
 <p><img src="markdown_images/Untitled-1604936140294.png" alt="HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled.png" /></p>
-<p>$(\Delta x,\ \Delta y)$ 构成运动向量，$\Delta t$ 为参考图像索引，$(\Delta x,\Delta y,\Delta t)$ 构成运动信息</p>
+<p>\( (\Delta x,\ \Delta y) \) 构成运动向量，\( \Delta t \) 为参考图像索引，\( (\Delta x,\Delta y,\Delta t) \) 构成运动信息</p>
 <p>运动补偿分为<strong>亚精度插值</strong>（Fractional Sample Interpolation）、<strong>像素值预测</strong>（Motion Compensated Predictor）和<strong>预测结果加权</strong>（Weighted Sample Prediction）三个部分</p>
 <p>HEVC 帧间编码总流程的示意图如下</p>
 <p><img src="markdown_images/Untitled%201-1604936140295.png" alt="HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled%201.png" /></p>
@@ -492,7 +495,7 @@ pcCU-&gt;setIntraDirSubParts( CHANNEL_TYPE_CHROMA, uiBestMode, uiPartOffset, uiD
 <p><img src="markdown_images/Untitled-1604936490157.png" alt="%E4%BA%9A%E7%B2%BE%E5%BA%A6%E5%83%8F%E7%B4%A0%E6%8F%92%E5%80%BC%20936bc48eb2eb4adaba05ff52546abb5f/Untitled.png" /></p>
 <p>HEVC 亮度 PB 区块的半精度像素插值采用 <strong>8 抽头</strong>滤波器，四分之一精度像素插值采用 <strong>7 抽头</strong>滤波器，色度 PB 区块在所有情况下亚精度插值均采用 <strong>4 抽头</strong>滤波器，<strong>滤波器系数被量化成 6bit 大小</strong></p>
 <blockquote>
-<p>但是看上图虽然滤波器系数的绝对值是小于 $2^6=64$ 的，但是其有正负之分，加上符号位感觉应该是 7bit？</p>
+<p>但是看上图虽然滤波器系数的绝对值是小于 \( 2^6=64 \) 的，但是其有正负之分，加上符号位感觉应该是 7bit？</p>
 </blockquote>
 <p>亮度 PB 区块使用的半精度插值的滤波器需要满足<strong>对称性</strong>，同时<strong>所有滤波系数加起来正好是 1</strong>（这样才能正确对直流情况滤波，也就是所有整数位置的像素都是同一个值，那么滤波得到的小数位置上的像素也应该是这个值），四分之一精度滤波器<strong>只需要满足后者</strong>，<strong>不需要对称性</strong>，假设滤波器有 2N 个抽头，那么半精度插值的滤波器的自由度是 N-1，而四分之一精度滤波器的自由度是 2N-1</p>
 <p><strong>插值方法</strong>如下</p>
@@ -604,7 +607,7 @@ pcCU-&gt;setIntraDirSubParts( CHANNEL_TYPE_CHROMA, uiBestMode, uiPartOffset, uiD
 <p><img src="markdown_images/Untitled%202-1604937040052.png" alt="AMVP%20%E6%A8%A1%E5%BC%8F%20f1a49ba1586d407bbd07d5f6d5dcbbd0/Untitled%202.png" /></p>
 <p>上图参数说明：</p>
 <ul>
-<li>$mv_{cand}$ 是候选区块的 mv</li>
+<li>\( mv_{cand} \) 是候选区块的 mv</li>
 <li>td 是<strong>候选区块的参考图片</strong>与<strong>当前区块所在的图片</strong>的时间距离（就是 POC 的差）</li>
 <li>tb 是<strong>当前区块的参考图片</strong>与<strong>当前区块所在的图片</strong>的时间距离</li>
 </ul>
@@ -655,7 +658,7 @@ pcCU-&gt;setIntraDirSubParts( CHANNEL_TYPE_CHROMA, uiBestMode, uiPartOffset, uiD
 <p><img src="markdown_images/Untitled%201-1604937103729.png" alt="%E5%8A%A0%E6%9D%83%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%2007e16480b66b401494651f7c9564e66a/Untitled%201.png" /></p>
 <p>双向预测时 WP 操作公式如下</p>
 <p><img src="markdown_images/Untitled%202-1604937103729.png" alt="%E5%8A%A0%E6%9D%83%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%2007e16480b66b401494651f7c9564e66a/Untitled%202.png" /></p>
-<p>其中 $w_0,o_0,w_1,o_1$ <strong>分别为参考序列 0 和参考序列 1 的权重</strong>（weight）<strong>和偏置</strong>（offset），在 HEVC 中这些参数需要<strong>显式地指定</strong></p>
+<p>其中 \( w_0,o_0,w_1,o_1 \) <strong>分别为参考序列 0 和参考序列 1 的权重</strong>（weight）<strong>和偏置</strong>（offset），在 HEVC 中这些参数需要<strong>显式地指定</strong></p>
 <p>LWD（log weight denominator）主要用于舍入操作</p>
 <h3><a class="header" href="#参考资料-1" id="参考资料-1">参考资料</a></h3>
 <hr />
@@ -713,7 +716,9 @@ pcCU-&gt;setIntraDirSubParts( CHANNEL_TYPE_CHROMA, uiBestMode, uiPartOffset, uiD
         
         <script type="text/javascript">
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
         

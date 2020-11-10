@@ -45,6 +45,9 @@
         
 
         
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -168,7 +171,7 @@
 <p><img src="markdown_images/Untitled-1604936490157.png" alt="%E4%BA%9A%E7%B2%BE%E5%BA%A6%E5%83%8F%E7%B4%A0%E6%8F%92%E5%80%BC%20936bc48eb2eb4adaba05ff52546abb5f/Untitled.png" /></p>
 <p>HEVC 亮度 PB 区块的半精度像素插值采用 <strong>8 抽头</strong>滤波器，四分之一精度像素插值采用 <strong>7 抽头</strong>滤波器，色度 PB 区块在所有情况下亚精度插值均采用 <strong>4 抽头</strong>滤波器，<strong>滤波器系数被量化成 6bit 大小</strong></p>
 <blockquote>
-<p>但是看上图虽然滤波器系数的绝对值是小于 $2^6=64$ 的，但是其有正负之分，加上符号位感觉应该是 7bit？</p>
+<p>但是看上图虽然滤波器系数的绝对值是小于 \( 2^6=64 \) 的，但是其有正负之分，加上符号位感觉应该是 7bit？</p>
 </blockquote>
 <p>亮度 PB 区块使用的半精度插值的滤波器需要满足<strong>对称性</strong>，同时<strong>所有滤波系数加起来正好是 1</strong>（这样才能正确对直流情况滤波，也就是所有整数位置的像素都是同一个值，那么滤波得到的小数位置上的像素也应该是这个值），四分之一精度滤波器<strong>只需要满足后者</strong>，<strong>不需要对称性</strong>，假设滤波器有 2N 个抽头，那么半精度插值的滤波器的自由度是 N-1，而四分之一精度滤波器的自由度是 2N-1</p>
 <p><strong>插值方法</strong>如下</p>

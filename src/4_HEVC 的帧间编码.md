@@ -8,7 +8,7 @@ HEVC 的帧间编码分为两个过程，一个是**运动估计**，其目的�
 
 ![HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled.png](markdown_images/Untitled-1604936140294.png)
 
-$(\Delta x,\ \Delta y)$ 构成运动向量，$\Delta t$ 为参考图像索引，$(\Delta x,\Delta y,\Delta t)$ 构成运动信息
+\\( (\Delta x,\ \Delta y) \\) 构成运动向量，\\( \Delta t \\) 为参考图像索引，\\( (\Delta x,\Delta y,\Delta t) \\) 构成运动信息
 
 运动补偿分为**亚精度插值**（Fractional Sample Interpolation）、**像素值预测**（Motion Compensated Predictor）和**预测结果加权**（Weighted Sample Prediction）三个部分
 

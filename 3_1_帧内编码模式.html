@@ -45,6 +45,9 @@
         
 
         
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -166,7 +169,7 @@
                         <h1><a class="header" href="#帧内编码模式" id="帧内编码模式">帧内编码模式</a></h1>
 <p>帧内编码时，<strong>在 PU 层次选择帧内预测模式</strong>，<strong>在 TU 层次进行帧内编码</strong>，对于<strong>亮度 PB 区块</strong>，其帧内预测有 <strong>35 种模式</strong>，包括 <strong>33 种角度模式</strong>和 <strong>Planar 模式</strong>以及 <strong>DC 模式</strong>，其中 Planar 模式编号为 0，DC 模式编号为 1，其余的角度模式编号为 2~34，角度模式用于<strong>像素具有纹理变化</strong>的区块，Planar 模式适用于<strong>像素颜色缓慢变化</strong>的区块，DC 模式用于<strong>像素颜色大面积平坦</strong>的区块，角度模式编号与方向关系如下图</p>
 <p><img src="markdown_images/Untitled.png" alt="%E5%B8%A7%E5%86%85%E7%BC%96%E7%A0%81%E6%A8%A1%E5%BC%8F%20027617919ccc45779ca93deb99ea86c0/Untitled.png" /></p>
-<p>由图可见，角度模式编号<strong>按顺时针方向增加</strong>，<strong>越靠近垂直和水平方向越密</strong>，其精度为 $\frac{1}{32}$，值得注意的两个模式是 <strong>10 模式 (水平模式)</strong> 和 <strong>26 模式（垂直模式）</strong></p>
+<p>由图可见，角度模式编号<strong>按顺时针方向增加</strong>，<strong>越靠近垂直和水平方向越密</strong>，其精度为 \( \frac{1}{32} \)，值得注意的两个模式是 <strong>10 模式 (水平模式)</strong> 和 <strong>26 模式（垂直模式）</strong></p>
 <p>不同的角度模式有不同的<strong>角度参数 A</strong>（就是图上 V 和 H 减的那个数），其与模式之间的关系表格如下</p>
 <p><img src="markdown_images/Untitled%201.png" alt="%E5%B8%A7%E5%86%85%E7%BC%96%E7%A0%81%E6%A8%A1%E5%BC%8F%20027617919ccc45779ca93deb99ea86c0/Untitled%201.png" /></p>
 <p>不同帧内预测模式直观效果展示如下（图中 DC 和 10、26 模式经过了后处理滤波）</p>
