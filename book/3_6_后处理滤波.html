@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>加权像素预测 - HEVC</title>
+        <title>后处理滤波 - HEVC NOTES</title>
         
         
 
@@ -98,7 +98,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="1_HEVC 的基本介绍.html"><strong aria-hidden="true">1.</strong> HEVC 的基本介绍</a></li><li class="chapter-item expanded "><a href="2_HEVC 编解码流程.html"><strong aria-hidden="true">2.</strong> HEVC 编解码流程</a></li><li class="chapter-item expanded affix "><li class="part-title">编解码流程</li><li class="chapter-item expanded "><a href="3_HEVC 的帧内编码.html"><strong aria-hidden="true">3.</strong> HEVC 的帧内编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="3_1_帧内编码模式.html"><strong aria-hidden="true">3.1.</strong> 帧内编码模式</a></li><li class="chapter-item expanded "><a href="3_2_参考像素补全.html"><strong aria-hidden="true">3.2.</strong> 参考像素补全</a></li><li class="chapter-item expanded "><a href="3_3_参考像素滤波.html"><strong aria-hidden="true">3.3.</strong> 参考像素滤波</a></li><li class="chapter-item expanded "><a href="3_4_参考像素投影.html"><strong aria-hidden="true">3.4.</strong> 参考像素投影</a></li><li class="chapter-item expanded "><a href="3_5_像素预测.html"><strong aria-hidden="true">3.5.</strong> 像素预测</a></li><li class="chapter-item expanded "><a href="3_6_后处理滤波.html"><strong aria-hidden="true">3.6.</strong> 后处理滤波</a></li><li class="chapter-item expanded "><a href="3_7_预测模式编码.html"><strong aria-hidden="true">3.7.</strong> 预测模式编码</a></li><li class="chapter-item expanded "><a href="3_8_最佳预测模式搜索.html"><strong aria-hidden="true">3.8.</strong> 最佳预测模式搜索</a></li></ol></li><li class="chapter-item expanded "><a href="4_HEVC 的帧间编码.html"><strong aria-hidden="true">4.</strong> HEVC 的帧间编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4_1_播放顺序与解码顺序.html"><strong aria-hidden="true">4.1.</strong> 播放顺序与解码顺序</a></li><li class="chapter-item expanded "><a href="4_2_亚精度像素插值.html"><strong aria-hidden="true">4.2.</strong> 亚精度像素插值</a></li><li class="chapter-item expanded "><a href="4_3_Merge 模式.html"><strong aria-hidden="true">4.3.</strong> Merge 模式</a></li><li class="chapter-item expanded "><a href="4_4_AMVP 模式.html"><strong aria-hidden="true">4.4.</strong> AMVP 模式</a></li><li class="chapter-item expanded "><a href="4_5_MV 搜索算法.html"><strong aria-hidden="true">4.5.</strong> MV 搜索算法</a></li><li class="chapter-item expanded "><a href="4_6_加权像素预测.html" class="active"><strong aria-hidden="true">4.6.</strong> 加权像素预测</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="1_HEVC 的基本介绍.html"><strong aria-hidden="true">1.</strong> HEVC 的基本介绍</a></li><li class="chapter-item expanded "><a href="2_HEVC 编解码流程.html"><strong aria-hidden="true">2.</strong> HEVC 编解码流程</a></li><li class="chapter-item expanded affix "><li class="part-title">编解码流程</li><li class="chapter-item expanded "><a href="3_HEVC 的帧内编码.html"><strong aria-hidden="true">3.</strong> HEVC 的帧内编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="3_1_帧内编码模式.html"><strong aria-hidden="true">3.1.</strong> 帧内编码模式</a></li><li class="chapter-item expanded "><a href="3_2_参考像素补全.html"><strong aria-hidden="true">3.2.</strong> 参考像素补全</a></li><li class="chapter-item expanded "><a href="3_3_参考像素滤波.html"><strong aria-hidden="true">3.3.</strong> 参考像素滤波</a></li><li class="chapter-item expanded "><a href="3_4_参考像素投影.html"><strong aria-hidden="true">3.4.</strong> 参考像素投影</a></li><li class="chapter-item expanded "><a href="3_5_像素预测.html"><strong aria-hidden="true">3.5.</strong> 像素预测</a></li><li class="chapter-item expanded "><a href="3_6_后处理滤波.html" class="active"><strong aria-hidden="true">3.6.</strong> 后处理滤波</a></li><li class="chapter-item expanded "><a href="3_7_预测模式编码.html"><strong aria-hidden="true">3.7.</strong> 预测模式编码</a></li><li class="chapter-item expanded "><a href="3_8_最佳预测模式搜索.html"><strong aria-hidden="true">3.8.</strong> 最佳预测模式搜索</a></li></ol></li><li class="chapter-item expanded "><a href="4_HEVC 的帧间编码.html"><strong aria-hidden="true">4.</strong> HEVC 的帧间编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4_1_播放顺序与解码顺序.html"><strong aria-hidden="true">4.1.</strong> 播放顺序与解码顺序</a></li><li class="chapter-item expanded "><a href="4_2_亚精度像素插值.html"><strong aria-hidden="true">4.2.</strong> 亚精度像素插值</a></li><li class="chapter-item expanded "><a href="4_3_Merge 模式.html"><strong aria-hidden="true">4.3.</strong> Merge 模式</a></li><li class="chapter-item expanded "><a href="4_4_AMVP 模式.html"><strong aria-hidden="true">4.4.</strong> AMVP 模式</a></li><li class="chapter-item expanded "><a href="4_5_MV 搜索算法.html"><strong aria-hidden="true">4.5.</strong> MV 搜索算法</a></li><li class="chapter-item expanded "><a href="4_6_加权像素预测.html"><strong aria-hidden="true">4.6.</strong> 加权像素预测</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -130,7 +130,7 @@
                         
                     </div>
 
-                    <h1 class="menu-title">HEVC</h1>
+                    <h1 class="menu-title">HEVC NOTES</h1>
 
                     <div class="right-buttons">
                         
@@ -166,29 +166,30 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#加权像素预测" id="加权像素预测">加权像素预测</a></h1>
-<p><strong>加权像素预测</strong>（Weighted Prediction，WP）主要用于处理视频中<strong>由于光线明暗变化造成的像素值的整体性的渐变</strong>，可在 <strong>PPS 层次</strong>上开关控制，在 PPS 中有 <code>weighted_pred_flag</code> 参数和 <code>weighted_bipred_flag</code> 参数标记不同的情况</p>
-<p><img src="markdown_images/Untitled-1604937103729.png" alt="%E5%8A%A0%E6%9D%83%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%2007e16480b66b401494651f7c9564e66a/Untitled.png" /></p>
-<p>单向预测时 WP 操作公式如下</p>
-<p><img src="markdown_images/Untitled%201-1604937103729.png" alt="%E5%8A%A0%E6%9D%83%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%2007e16480b66b401494651f7c9564e66a/Untitled%201.png" /></p>
-<p>双向预测时 WP 操作公式如下</p>
-<p><img src="markdown_images/Untitled%202-1604937103729.png" alt="%E5%8A%A0%E6%9D%83%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%2007e16480b66b401494651f7c9564e66a/Untitled%202.png" /></p>
-<p>其中 \( w_0,o_0,w_1,o_1 \) <strong>分别为参考序列 0 和参考序列 1 的权重</strong>（weight）<strong>和偏置</strong>（offset），在 HEVC 中这些参数需要<strong>显式地指定</strong></p>
-<p>LWD（log weight denominator）主要用于舍入操作</p>
-<h3><a class="header" href="#参考资料" id="参考资料">参考资料</a></h3>
-<hr />
-<p>HEVC加权预测（Weight Prediction）原理兼解码代码_linpengbin的专栏-CSDN博客：<a href="https://blog.csdn.net/linpengbin/article/details/49497287">地址</a></p>
+                        <h1><a class="header" href="#后处理滤波" id="后处理滤波">后处理滤波</a></h1>
+<p>一些预测模式会<strong>在 TU 块边缘产生明显的不连续现象</strong>，尤其是 DC 模式以及水平和垂直模式，当采用垂直模式时，左侧边缘可能不连续，当采用水平模式时，上侧边缘可能不连续，当采用 DC 模式时，左侧和上侧边缘都可能不连续，因此<strong>帧内预测的 DC 和 10、26 模式将在执行像素预测后对亮度 TB 进行后处理滤波</strong></p>
+<p>后处理滤波的具体规则如下</p>
+<p><img src="markdown_images/Untitled-1604935306004.png" alt="%E5%90%8E%E5%A4%84%E7%90%86%E6%BB%A4%E6%B3%A2%2015fb6f589a3f4711ac51947beb09b5c7/Untitled.png" /></p>
+<p><img src="markdown_images/Untitled%201-1604935306004.png" alt="%E5%90%8E%E5%A4%84%E7%90%86%E6%BB%A4%E6%B3%A2%2015fb6f589a3f4711ac51947beb09b5c7/Untitled%201.png" /></p>
+<p>垂直模式只对左侧边缘滤波，水平模式只对上侧边缘滤波，DC 模式对双侧边缘均滤波</p>
+<blockquote>
+<p>滤波本质上感觉像是让边缘像素与相邻的参考像素更加接近？</p>
+</blockquote>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="4_5_MV 搜索算法.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="3_5_像素预测.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
+                        
+                            <a rel="next" href="3_7_预测模式编码.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -198,11 +199,15 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="4_5_MV 搜索算法.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="3_5_像素预测.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
+                
+                    <a rel="next" href="3_7_预测模式编码.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                 
             </nav>
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>像素预测 - HEVC</title>
+        <title>参考像素补全 - HEVC NOTES</title>
         
         
 
@@ -98,7 +98,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="1_HEVC 的基本介绍.html"><strong aria-hidden="true">1.</strong> HEVC 的基本介绍</a></li><li class="chapter-item expanded "><a href="2_HEVC 编解码流程.html"><strong aria-hidden="true">2.</strong> HEVC 编解码流程</a></li><li class="chapter-item expanded affix "><li class="part-title">编解码流程</li><li class="chapter-item expanded "><a href="3_HEVC 的帧内编码.html"><strong aria-hidden="true">3.</strong> HEVC 的帧内编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="3_1_帧内编码模式.html"><strong aria-hidden="true">3.1.</strong> 帧内编码模式</a></li><li class="chapter-item expanded "><a href="3_2_参考像素补全.html"><strong aria-hidden="true">3.2.</strong> 参考像素补全</a></li><li class="chapter-item expanded "><a href="3_3_参考像素滤波.html"><strong aria-hidden="true">3.3.</strong> 参考像素滤波</a></li><li class="chapter-item expanded "><a href="3_4_参考像素投影.html"><strong aria-hidden="true">3.4.</strong> 参考像素投影</a></li><li class="chapter-item expanded "><a href="3_5_像素预测.html" class="active"><strong aria-hidden="true">3.5.</strong> 像素预测</a></li><li class="chapter-item expanded "><a href="3_6_后处理滤波.html"><strong aria-hidden="true">3.6.</strong> 后处理滤波</a></li><li class="chapter-item expanded "><a href="3_7_预测模式编码.html"><strong aria-hidden="true">3.7.</strong> 预测模式编码</a></li><li class="chapter-item expanded "><a href="3_8_最佳预测模式搜索.html"><strong aria-hidden="true">3.8.</strong> 最佳预测模式搜索</a></li></ol></li><li class="chapter-item expanded "><a href="4_HEVC 的帧间编码.html"><strong aria-hidden="true">4.</strong> HEVC 的帧间编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4_1_播放顺序与解码顺序.html"><strong aria-hidden="true">4.1.</strong> 播放顺序与解码顺序</a></li><li class="chapter-item expanded "><a href="4_2_亚精度像素插值.html"><strong aria-hidden="true">4.2.</strong> 亚精度像素插值</a></li><li class="chapter-item expanded "><a href="4_3_Merge 模式.html"><strong aria-hidden="true">4.3.</strong> Merge 模式</a></li><li class="chapter-item expanded "><a href="4_4_AMVP 模式.html"><strong aria-hidden="true">4.4.</strong> AMVP 模式</a></li><li class="chapter-item expanded "><a href="4_5_MV 搜索算法.html"><strong aria-hidden="true">4.5.</strong> MV 搜索算法</a></li><li class="chapter-item expanded "><a href="4_6_加权像素预测.html"><strong aria-hidden="true">4.6.</strong> 加权像素预测</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="1_HEVC 的基本介绍.html"><strong aria-hidden="true">1.</strong> HEVC 的基本介绍</a></li><li class="chapter-item expanded "><a href="2_HEVC 编解码流程.html"><strong aria-hidden="true">2.</strong> HEVC 编解码流程</a></li><li class="chapter-item expanded affix "><li class="part-title">编解码流程</li><li class="chapter-item expanded "><a href="3_HEVC 的帧内编码.html"><strong aria-hidden="true">3.</strong> HEVC 的帧内编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="3_1_帧内编码模式.html"><strong aria-hidden="true">3.1.</strong> 帧内编码模式</a></li><li class="chapter-item expanded "><a href="3_2_参考像素补全.html" class="active"><strong aria-hidden="true">3.2.</strong> 参考像素补全</a></li><li class="chapter-item expanded "><a href="3_3_参考像素滤波.html"><strong aria-hidden="true">3.3.</strong> 参考像素滤波</a></li><li class="chapter-item expanded "><a href="3_4_参考像素投影.html"><strong aria-hidden="true">3.4.</strong> 参考像素投影</a></li><li class="chapter-item expanded "><a href="3_5_像素预测.html"><strong aria-hidden="true">3.5.</strong> 像素预测</a></li><li class="chapter-item expanded "><a href="3_6_后处理滤波.html"><strong aria-hidden="true">3.6.</strong> 后处理滤波</a></li><li class="chapter-item expanded "><a href="3_7_预测模式编码.html"><strong aria-hidden="true">3.7.</strong> 预测模式编码</a></li><li class="chapter-item expanded "><a href="3_8_最佳预测模式搜索.html"><strong aria-hidden="true">3.8.</strong> 最佳预测模式搜索</a></li></ol></li><li class="chapter-item expanded "><a href="4_HEVC 的帧间编码.html"><strong aria-hidden="true">4.</strong> HEVC 的帧间编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4_1_播放顺序与解码顺序.html"><strong aria-hidden="true">4.1.</strong> 播放顺序与解码顺序</a></li><li class="chapter-item expanded "><a href="4_2_亚精度像素插值.html"><strong aria-hidden="true">4.2.</strong> 亚精度像素插值</a></li><li class="chapter-item expanded "><a href="4_3_Merge 模式.html"><strong aria-hidden="true">4.3.</strong> Merge 模式</a></li><li class="chapter-item expanded "><a href="4_4_AMVP 模式.html"><strong aria-hidden="true">4.4.</strong> AMVP 模式</a></li><li class="chapter-item expanded "><a href="4_5_MV 搜索算法.html"><strong aria-hidden="true">4.5.</strong> MV 搜索算法</a></li><li class="chapter-item expanded "><a href="4_6_加权像素预测.html"><strong aria-hidden="true">4.6.</strong> 加权像素预测</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -130,7 +130,7 @@
                         
                     </div>
 
-                    <h1 class="menu-title">HEVC</h1>
+                    <h1 class="menu-title">HEVC NOTES</h1>
 
                     <div class="right-buttons">
                         
@@ -166,28 +166,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#像素预测" id="像素预测">像素预测</a></h1>
-<p>在像素预测中，角度模式、DC 模式以及 Planar 模式分别有不同的预测规则</p>
+                        <h1><a class="header" href="#参考像素补全" id="参考像素补全">参考像素补全</a></h1>
+<p>HEVC 采用的参考像素是在 TU 周围左侧、左下侧、左上侧、上侧、右上侧<strong>一格宽度</strong>的像素，如下图，这些参考像素可能<strong>跨越多个 TU</strong>，当遇到图片边缘、slice 边缘等情况可能会出现参考像素值的缺失，此时需要进行参考像素的补全操作</p>
+<p><img src="markdown_images/Untitled-1604934452845.png" alt="%E5%8F%82%E8%80%83%E5%83%8F%E7%B4%A0%E8%A1%A5%E5%85%A8%209e2aa0dbada1411ebe32317f8d3aa0fa/Untitled.png" /></p>
+<p>参考像素（灰色和黑色部分）与待预测 TU（中间圈出来的方形）</p>
+<p>像素补全的基本规则如下</p>
+<p><img src="markdown_images/Untitled%201-1604934452845.png" alt="%E5%8F%82%E8%80%83%E5%83%8F%E7%B4%A0%E8%A1%A5%E5%85%A8%209e2aa0dbada1411ebe32317f8d3aa0fa/Untitled%201.png" /></p>
+<p><img src="markdown_images/Untitled%202-1604934452845.png" alt="%E5%8F%82%E8%80%83%E5%83%8F%E7%B4%A0%E8%A1%A5%E5%85%A8%209e2aa0dbada1411ebe32317f8d3aa0fa/Untitled%202.png" /></p>
+<p>对上图的解释：p[-1][2N-1] 按照顺时针找到第一个可用的参考像素，然后 p[-1][2N-2] 参考 p[-1][2N-1]，p[-1][2N-3] 参考 p[-1][2N-2]，...，p[-1][-1] 参考 p[-1][-2]，p[0][-1] 参考 p[-1][-1]，p[N-1][-1] 参考 p[N-2][-1]，最后 p[2N-1][-1] 参考 p[2N-2][-1]</p>
+<p>如果所有参考点均不存在，那么<strong>将参考像素的大小设置为像素大小允许取值范围的中间值</strong>（8bit 填 128，10bit 填 512）</p>
+<h3><a class="header" href="#补充" id="补充">补充</a></h3>
 <ol>
-<li>
-<p><strong>角度模式</strong></p>
-<p><img src="markdown_images/Untitled-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled.png" /></p>
-<p>角度模式预测规则</p>
-<p>把待预测的像素 p[x][y] 投影到待预测像素序列的某个位置上（这个位置的精度为 \( \frac{1}{32} \)，如果 f 是 0 或者 32，那么是正好投影在某个 \( ref[x+i+n] \) 上，如果 f 有值，那么就是投影在 \( ref[x+i+1] \) 和 \( ref[x+i+2] \) 之间，通过这两个参考像素之间的插值确定 p[x][y] 的值，可以看作在 \( ref[x+i+1] \) 和 \( ref[x+i+2] \) 之间划分了 32 个区域，每个区域对应一个插值，p[x][y] 落在哪个区域中就用哪个区域的插值，所以说精度为 \( \frac{1}{32} \)）</p>
-</li>
-<li>
-<p><strong>DC 模式</strong></p>
-<p><strong>用左侧和上方（不包括左下、左上和右上）所有参考像素的均值填充所有格</strong>，上边缘和左边缘需要滤波</p>
-</li>
-<li>
-<p><strong>Planar 模式</strong></p>
-<p>Planar 模式预测规则如下图</p>
-<p><img src="markdown_images/Untitled%201-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled%201.png" /></p>
-<p><img src="markdown_images/Untitled%202-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled%202.png" /></p>
-<p><img src="markdown_images/Untitled%203-1604935092873.png" alt="%E5%83%8F%E7%B4%A0%E9%A2%84%E6%B5%8B%201663ac0299274402aedf550885e7c58f/Untitled%203.png" /></p>
-<p>Planar 模式的预测结果就是像素的垂直方向预测值 \( p_v \) 与像素水平方向预测值 \( p_h \) 的平均，垂直方向预测值就是 p[-1][N] 与 p[x][-1] 进行一个 N 个值的线性插值，每块（每个 x）一个值，p[x][y] 在哪块就是哪个值，水平方向预测值同理，p[-1][y] 与 p[N][-1]  进行一个 N 个值的线性插值，每块（每个 y）一个值，p[x][y] 在哪块就是哪个值</p>
-<p>像素预测代码见 <strong><code>TComPrediction::predIntraAng</code></strong> 函数</p>
-</li>
+<li>H.264 不支持左下的点参与预测，但是 HEVC 支持</li>
+<li>H.264 没有参考像素补全这个功能，当出现参考像素缺失时只能使用 DC 预测模式</li>
 </ol>
 
                     </main>
@@ -195,13 +186,13 @@
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="3_4_参考像素投影.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="3_1_帧内编码模式.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="3_6_后处理滤波.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="3_3_参考像素滤波.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -213,13 +204,13 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="3_4_参考像素投影.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="3_1_帧内编码模式.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="3_6_后处理滤波.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="3_3_参考像素滤波.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
