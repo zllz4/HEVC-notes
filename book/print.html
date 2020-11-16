@@ -217,11 +217,26 @@
 <h3><a class="header" href="#22-发展历程" id="22-发展历程">2.2 发展历程</a></h3>
 <p>视频编码标准的发展示意图如下  (图片来源<a href="%5Bhttps://zh.wikipedia.org/wiki/%E8%A6%96%E8%A8%8A%E5%A3%93%E7%B8%AE%5D(https://zh.wikipedia.org/wiki/%E8%A6%96%E8%A8%8A%E5%A3%93%E7%B8%AE)">维基百科</a>)</p>
 <p><img src="markdown_images/Untitled-1605452371623.png" alt="HEVC%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D%20d5f7d273039d4ecebce02b67c0924992/Untitled.png" /></p>
-<h1><a class="header" href="#hevc-编解码流程" id="hevc-编解码流程">HEVC 编解码流程</a></h1>
-<p><img src="markdown_images/image-20201109003052560.png" alt="image-20201109003052560" /></p>
-<p>HEVC 使用<strong>基于块的混合编码技术</strong>，混合是指其同时使用了<strong>预测编码</strong>和<strong>变换编码</strong>的技术，预测编码指其<strong>利用时域和空域的邻近像素预测当前像素值，之后传输实际值与预测值之差</strong>，变换编码指其<strong>对残差执行了 DCT 变换，传输其量化后的非零 DCT 系数</strong></p>
+<h1><a class="header" href="#c-2-hevc-的基本流程" id="c-2-hevc-的基本流程">C-2 HEVC 的基本流程</a></h1>
+<h2><a class="header" href="#1-基本流程" id="1-基本流程">1 基本流程</a></h2>
+<h3><a class="header" href="#11-流程示意图" id="11-流程示意图">1.1 流程示意图</a></h3>
+<p>HEVC 编码基本流程示意图如下（图来自 C-1 中提到的英文书）</p>
+<p><img src="markdown_images/Untitled-1605514858644.png" alt="C-2%20HEVC%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%2048cf54773c3c45f5aec8a2f670586a37/Untitled.png" /></p>
+<h3><a class="header" href="#12-流程概述" id="12-流程概述">1.2 流程概述</a></h3>
 <p>HEVC 的具体流程为首先对图片进行<strong>分块操作</strong>，然后以块为单位对图片进行<strong>帧内编码</strong>或<strong>帧间编码</strong>，然后进行<strong>帧内编码预测</strong>或<strong>帧间编码预测</strong>得到图片的<strong>第一次重建图像</strong>（称为<strong>预测图像</strong>），拿图片原图减去第一次重建图像得到<strong>残差</strong>，将残差进行<strong>DCT变换</strong>、<strong>量化</strong>再进行<strong>反 DCT 变换</strong>得到<strong>重建残差</strong>，将第一次重建图像加上重建残差得到<strong>第二次重建图像</strong>，第二次重建图像进行<strong>环路滤波</strong>（in-loop filter）得到得到<strong>第三次重建图像</strong>（称为<strong>重建图像</strong>），第三次重建图像是最终解码的结果，将其<strong>存入 buffer</strong> 用作编码顺序之后帧帧间编码的参考，编码中产生的帧内/帧间编码的数据和残差（以及其它控制信号）则经过<strong>熵编码</strong>之后作为编码输出，之后帧的编码过程与此相同</p>
 <p>由图可知，<strong>HEVC 的编码器中嵌套了一个完整的解码器</strong></p>
+<h2><a class="header" href="#2-补充笔记-1" id="2-补充笔记-1">2 补充笔记</a></h2>
+<h3><a class="header" href="#21-混合编码" id="21-混合编码">2.1 混合编码</a></h3>
+<p>HEVC 使用<strong>基于块的混合编码技术</strong>，混合是指其同时使用了<strong>预测编码</strong>和<strong>变换编码</strong>的技术，预测编码指其<strong>利用时域和空域的邻近像素预测当前像素值，之后传输实际值与预测值之差（残差）</strong>，变换编码指其<strong>对残差执行了 DCT 变换，传输其量化后的非零 DCT 系数</strong></p>
+<p>混合编码 百度百科: <a href="%5Bhttps://baike.baidu.com/item/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A0%81%5D(https://baike.baidu.com/item/%E6%B7%B7%E5%90%88%E7%BC%96%E7%A0%81)">地址</a></p>
+<p>预测编码 维基百科: <a href="%5Bhttps://zh.wikipedia.org/wiki/%E9%A0%90%E6%B8%AC%E7%B7%A8%E7%A2%BC%5D(https://zh.wikipedia.org/wiki/%E9%A0%90%E6%B8%AC%E7%B7%A8%E7%A2%BC)">地址</a></p>
+<p>变换编码 维基百科: <a href="%5Bhttps://zh.wikipedia.org/wiki/%E5%8F%98%E6%8D%A2%E7%BC%96%E7%A0%81%5D(https://zh.wikipedia.org/wiki/%E5%8F%98%E6%8D%A2%E7%BC%96%E7%A0%81)">地址</a></p>
+<h3><a class="header" href="#22-残差" id="22-残差">2.2 残差</a></h3>
+<p>为什么要使用残差？</p>
+<p>因为<strong>条件熵 \( H(Z|X,Y) \) 总是小于等于非条件熵 \( H(Z) \)</strong> （证明见信息论第二讲 pdf 第 35 页，互信息非负），所以<strong>残差所含的信息要比原信号所含的信息要少</strong>（因为求取残差的过程用到了时域或空域邻近的像素块进行预测，也就是“已知条件”），所以<strong>残差能用更少的比特进行表示</strong></p>
+<blockquote>
+<p>注：条件熵有两种，一种是 \( H(Z|Y=y) \)，一种是 \( H(Z|Y) \)，前者不一定小于非条件熵 \( H(Z) \)，后者一定小于非条件熵</p>
+</blockquote>
 <h1><a class="header" href="#hevc-的帧内编码" id="hevc-的帧内编码">HEVC 的帧内编码</a></h1>
 <blockquote>
 <p>以下不少名词都是我起的，肯定不规范，需要注意</p>
