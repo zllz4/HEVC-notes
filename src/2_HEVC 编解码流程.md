@@ -1,12 +1,12 @@
-# C-2 HEVC 的基本流程
+# HEVC 的基本流程
 
 ## 1 基本流程
 
 ### 1.1 流程示意图
 
-HEVC 编码基本流程示意图如下（图来自 C-1 中提到的英文书）
+HEVC 编码基本流程示意图如下（图来自 1.HEVC 的基本介绍 中提到的英文书）
 
-![C-2%20HEVC%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%2048cf54773c3c45f5aec8a2f670586a37/Untitled.png](markdown_images/Untitled-1605514858644.png)
+![2_HEVC 编解码流程_0](<markdown_images/2_HEVC 编解码流程_0.png>)
 
 ### 1.2 流程概述
 

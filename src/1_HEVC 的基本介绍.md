@@ -1,4 +1,4 @@
-# C-1 HEVC 的基本介绍
+# HEVC 的基本介绍
 
 ## 1. HEVC
 
@@ -67,4 +67,4 @@ HEVC 的官方网站：[地址]([https://hevc.hhi.fraunhofer.de/](https://hevc.h
 
 视频编码标准的发展示意图如下  (图片来源[维基百科]([https://zh.wikipedia.org/wiki/視訊壓縮](https://zh.wikipedia.org/wiki/%E8%A6%96%E8%A8%8A%E5%A3%93%E7%B8%AE)))  
 
-![HEVC%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D%20d5f7d273039d4ecebce02b67c0924992/Untitled.png](markdown_images/Untitled-1605452371623.png)
+![1_HEVC 的基本介绍_0](<markdown_images/1_HEVC 的基本介绍_0.png>)

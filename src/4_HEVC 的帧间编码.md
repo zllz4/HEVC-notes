@@ -6,7 +6,7 @@ HEVC 的帧间编码分为两个过程，一个是**运动估计**，其目的�
 
 运动信息（Motion Data）包含**运动向量**（Motion Vectors）和**参考图像索引**（Reference Indices），其示意图如下
 
-![HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled.png](markdown_images/Untitled-1604936140294.png)
+![4_HEVC 的帧间编码_0](<markdown_images/4_HEVC 的帧间编码_0.png>)
 
 \\( (\Delta x,\ \Delta y) \\) 构成运动向量，\\( \Delta t \\) 为参考图像索引，\\( (\Delta x,\Delta y,\Delta t) \\) 构成运动信息
 
@@ -14,6 +14,6 @@ HEVC 的帧间编码分为两个过程，一个是**运动估计**，其目的�
 
 HEVC 帧间编码总流程的示意图如下
 
-![HEVC%20%E7%9A%84%E5%B8%A7%E9%97%B4%E7%BC%96%E7%A0%81%201223b45964f140c698472179cc5776fa/Untitled%201.png](markdown_images/Untitled%201-1604936140295.png)
+![4_HEVC 的帧间编码_1](<markdown_images/4_HEVC 的帧间编码_1.png>)
 
 以 P Slice 为代表（可能也包括单向参考的 B Slice）的**单向帧间预测编码**（unipredictive coding）只有一个预测方向，**只传输一组运动信息**（MVP+MVD+RefIdx），以 B Slice 为代表的**双向帧间预测编码**（bipredictive coding）有两个预测方向，**需要传输两组运动信息。每组运动信息将产生一种像素值的预测**，对于双向预测，最后帧间预测的结果一般通过两种预测结果的**平均**产生，但是在预测结果加权中，也可能存在**两种预测结果权重不同**的现象。8x4 或者 4x8 的亮度 PB 区块只支持单向帧间预测编码

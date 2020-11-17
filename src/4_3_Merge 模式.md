@@ -4,25 +4,23 @@ HEVC 的 Merge 模式从时域或空域的相邻块中获取运动信息，**不
 
 Merge 允许**五个运动向量预测候选**，其将从**五个空域位置**和**一个时域位置**中产生，如下图
 
-![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled.png](markdown_images/Untitled-1604936611656.png)
+![4_3_Merge 模式_0](<markdown_images/4_3_Merge 模式_0.png>)
 
 五个候选的构成规则如下
 
-![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%201.png](markdown_images/Untitled%201-1604936611656.png)
-
 1. **空域候选**同样是从图 5.4(b) 中的五个候选中选择 4 个，按照以下顺序
 
-   ![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%202.png](markdown_images/Untitled%202-1604936611656.png)
+   ![4_3_Merge 模式_1](<markdown_images/4_3_Merge 模式_1.png>)
 
    为了防止冗余，需要进行以下两项检查
 
    1. 检查**是否两个候选含有相同的运动信息**，本来 5 个候选需要进行 10 次比较，但是 HEVC 的优化使其只需要五次比较即能完成检查，比较顺序如下
 
-      ![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%203.png](markdown_images/Untitled%203-1604936611656.png)
+      ![4_3_Merge 模式_2](<markdown_images/4_3_Merge 模式_2.png>)
 
    2. 检查**是否当前块加上候选块可正好组成当前块所属的 CU**，这种情况下 Merge 本身等价于对 CU 进行一个 2Nx2N 的划分（也就是划分 CU 时把两个 PU 合一起，不划成两个），这种情况应该在划分 CU 时考虑，没有必要在 Merge 时考虑，属于此类情况的典型情景如下图
 
-      ![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%204.png](markdown_images/Untitled%204-1604936611656.png)
+      ![4_3_Merge 模式_3](<markdown_images/4_3_Merge 模式_3.png>)
 
       对于 (a)，A1 没了，对于 (b)，B1 没了，没了的原因是如果 PU1 参考 PU2，那么就等价于这个 CU 不分割成两个 PU
 
@@ -32,11 +30,11 @@ Merge 允许**五个运动向量预测候选**，其将从**五个空域位置**
 
    额外候选种类如下
 
-   ![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%205.png](markdown_images/Untitled%205-1604936611656.png)
+   ![4_3_Merge 模式_4](<markdown_images/4_3_Merge 模式_4.png>)
 
    B slice 将采用**基于已有候选结合产生新的双向候选**的方式产生额外候选，按照如下顺序结合前 0~3 号候选产生额外候选
 
-   ![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%206.png](markdown_images/Untitled%206-1604936611656.png)
+   ![4_3_Merge 模式_5](<markdown_images/4_3_Merge 模式_5.png>)
 
    首先结合 0 号候选的参考序列 0 的运动信息和 1 号候选参考序列 1 的运动信息产生额外双向候选，如果不行，那么尝试结合 1 号候选的参考序列 0 的运动信息和 0 号候选参考序列 1 的运动信息产生额外双向候选，以此类推
 
@@ -52,7 +50,7 @@ Merge 模式需要以下标志位
 
 4. `skip_flag`：CU 层次（但这个 CU 一定要按照 2Nx2N 划分 PU，所以其实也是 PU 层次），标志**此 CU 为 skip 模式**，skip 模式的意义如下
 
-   ![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%207.png](markdown_images/Untitled%207-1604936611656.png)
+   ![4_3_Merge 模式_6](<markdown_images/4_3_Merge 模式_6.png>)
 
    skip 模式不传输 MVD，也不传输残差
 
@@ -64,4 +62,4 @@ Q：为什么要使用 Merge？
 
 A：因为四叉树的划分方式会造成一些冗余的区块，所谓冗余，是指**不同的区块拥有相同的运动信息**，比如下图，（b）为对含有运动物体图片的 CU 划分，将拥有相同运动信息的区块合并，可以得到（c），对比 （b）（c）可以发现冗余区块占据了相当比例，因此采用 Merge 方法能够有效的缓解这种冗余区块带来的性能损失
 
-![Merge%20%E6%A8%A1%E5%BC%8F%2037e040729da8416787814458f4c90106/Untitled%208.png](markdown_images/Untitled%208.png)
+![4_3_Merge 模式_7](<markdown_images/4_3_Merge 模式_7.png>)

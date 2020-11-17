@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>量化 - HEVC NOTES</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="1_HEVC 的基本介绍.html"><strong aria-hidden="true">1.</strong> HEVC 的基本介绍</a></li><li class="chapter-item expanded "><a href="2_HEVC 编解码流程.html"><strong aria-hidden="true">2.</strong> HEVC 编解码流程</a></li><li class="chapter-item expanded affix "><li class="part-title">编解码流程</li><li class="chapter-item expanded "><a href="3_HEVC 的帧内编码.html"><strong aria-hidden="true">3.</strong> HEVC 的帧内编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="3_1_帧内编码模式.html"><strong aria-hidden="true">3.1.</strong> 帧内编码模式</a></li><li class="chapter-item expanded "><a href="3_2_参考像素补全.html"><strong aria-hidden="true">3.2.</strong> 参考像素补全</a></li><li class="chapter-item expanded "><a href="3_3_参考像素滤波.html"><strong aria-hidden="true">3.3.</strong> 参考像素滤波</a></li><li class="chapter-item expanded "><a href="3_4_参考像素投影.html"><strong aria-hidden="true">3.4.</strong> 参考像素投影</a></li><li class="chapter-item expanded "><a href="3_5_像素预测.html"><strong aria-hidden="true">3.5.</strong> 像素预测</a></li><li class="chapter-item expanded "><a href="3_6_后处理滤波.html"><strong aria-hidden="true">3.6.</strong> 后处理滤波</a></li><li class="chapter-item expanded "><a href="3_7_预测模式编码.html"><strong aria-hidden="true">3.7.</strong> 预测模式编码</a></li><li class="chapter-item expanded "><a href="3_8_最佳预测模式搜索.html"><strong aria-hidden="true">3.8.</strong> 最佳预测模式搜索</a></li></ol></li><li class="chapter-item expanded "><a href="4_HEVC 的帧间编码.html"><strong aria-hidden="true">4.</strong> HEVC 的帧间编码</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="4_1_播放顺序与解码顺序.html"><strong aria-hidden="true">4.1.</strong> 播放顺序与解码顺序</a></li><li class="chapter-item expanded "><a href="4_2_亚精度像素插值.html"><strong aria-hidden="true">4.2.</strong> 亚精度像素插值</a></li><li class="chapter-item expanded "><a href="4_3_Merge 模式.html"><strong aria-hidden="true">4.3.</strong> Merge 模式</a></li><li class="chapter-item expanded "><a href="4_4_AMVP 模式.html"><strong aria-hidden="true">4.4.</strong> AMVP 模式</a></li><li class="chapter-item expanded "><a href="4_5_MV 搜索算法.html"><strong aria-hidden="true">4.5.</strong> MV 搜索算法</a></li><li class="chapter-item expanded "><a href="4_6_加权像素预测.html"><strong aria-hidden="true">4.6.</strong> 加权像素预测</a></li></ol></li><li class="chapter-item expanded "><a href="5_HEVC 的变换量化.html"><strong aria-hidden="true">5.</strong> HEVC 的变换量化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="5_1_变换.html"><strong aria-hidden="true">5.1.</strong> 变换</a></li><li class="chapter-item expanded "><a href="5_2_DCT.html"><strong aria-hidden="true">5.2.</strong> DCT</a></li><li class="chapter-item expanded "><a href="5_3_量化.html" class="active"><strong aria-hidden="true">5.3.</strong> 量化</a></li><li class="chapter-item expanded "><a href="5_4_量化矩阵.html"><strong aria-hidden="true">5.4.</strong> 量化矩阵</a></li><li class="chapter-item expanded "><a href="5_5_QP 推断.html"><strong aria-hidden="true">5.5.</strong> QP 推断</a></li><li class="chapter-item expanded "><a href="5_6_HEVC 的特殊编码模式.html"><strong aria-hidden="true">5.6.</strong> HEVC 的特殊编码模式</a></li><li class="chapter-item expanded "><a href="5_7_复杂度分析与蝶式运算.html"><strong aria-hidden="true">5.7.</strong> 复杂度分析与蝶式运算</a></li><li class="chapter-item expanded "><a href="5_8_补充.html"><strong aria-hidden="true">5.8.</strong> 补充</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">HEVC NOTES</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#量化" id="量化">量化</a></h1>
+<h3><a class="header" href="#量化-1" id="量化-1">量化</a></h3>
+<p>实际上之前的很多舍入操作也是量化，只不过量化步长是 1，这里的量化与舍入的量化的区别可能就是量化的步长会大于 1，最大是 \( 2^{47/6}\approx228 \) ？（QP 再加 1 量化步长就变 256 了）</p>
+<p>相关参数：\( QP \) 以及 \( Q_{step} \)</p>
+<ul>
+<li>
+<p>HEVC 的量化操作有两个参数，一个是 \( QP \)，一个是 \( Q_{step} \)，\( <strong>QP \)  决定 \( Q_{step} \)</strong>，\( <strong>Q_{step} \) 用于最终量化操作</strong></p>
+</li>
+<li>
+<p>量化操作的过程就是原数值除以 \( Q_{step} \) 然后进行四舍五入，反量化就是解码得到的值乘以 \( Q_{step} \)</p>
+</li>
+<li>
+<p>\( QP \) 的<strong>取值范围是 0~51</strong>（对于 8bit 输入的情况）</p>
+</li>
+<li>
+<p>\( QP \) 每增加 6 则 \( Q_{step} \) 提高一倍</p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_0.png" alt="5_3_量化_0" /></p>
+<p>实际上似乎是这么搞的，但是在程序里面好像没找到 g 这个数组</p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_1.png" alt="5_3_量化_1" /></p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_2.png" alt="5_3_量化_2" /></p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_3.png" alt="5_3_量化_3" /></p>
+</li>
+<li>
+<p>\( QP \) 使用<strong>预测编码</strong>，传输的是 \( \Delta QP \)，\( QP \)  的预测值为左侧、上侧和之前（previous）区块的 QP 值的结合</p>
+</li>
+</ul>
+<p>三种与变换和量化有关的<strong>特殊模式</strong>：<strong>I_PCM 模式</strong>、<strong>lossless 模式</strong>、<strong>transform skip 模式</strong></p>
+<p>与频率有关的量化操作（requency-dependent quantization）：对 DCT 变换后得到的系数矩阵的不同位置给予不同的量化参数，量化参数组成量化矩阵（详情见补充）</p>
+<ul>
+<li>
+<p>示意图如下（注意这里有 <strong>\( \bf coeff_Q \) 的公式</strong>和 \( <strong>\bf level \) 的公式</strong>）</p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_4.png" alt="5_3_量化_4" /></p>
+<p>注意 shift1 <strong>不是</strong> \( S_{IT1} \)！</p>
+<p>shift1 的获取方法如下</p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_5.png" alt="5_3_量化_5" /></p>
+<p>注意如式 6.10 的量化操作<strong>只是一种选择</strong>，HEVC 没有规定量化操作，HM 模型就采用了一个<strong>基于率失真优化</strong>（rate-distortion optimized quantization (RDOQ)）<strong>的量化策略</strong></p>
+<p>为啥要乘起来是 1 啊？正向变换的时候不是有一个缩放系数 \( 2^{15-B-M} \) 吗？你后面乘起来是 1 了那么这个缩放系数不就没法抵消了？</p>
+<p>哦好像是因为它正向变换也又乘了一个缩放系数把这个弄没了</p>
+<p>总之，<strong>变换操作会放大，然后要乘以一个变换操作的缩放系数，量化操作也会放大，所以还要乘以一个量化操作的缩放系数</strong></p>
+<p>\( f_i \) 是<strong>量化操作缩放因子</strong>（quantizer multipliers），\( g_i \) 是<strong>反量化操作缩放因子</strong>（dequantizer multipliers），两者的作用是<strong>对原数据进行量化等于乘以缩放因子然后移位 \( \bf Qp/6 \)</strong></p>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_6.png" alt="5_3_量化_6" /></p>
+</li>
+</ul>
+<p><img src="markdown_images/5_3_%E9%87%8F%E5%8C%96_7.png" alt="5_3_量化_7" /></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="5_2_DCT.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="5_4_量化矩阵.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="5_2_DCT.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="5_4_量化矩阵.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
