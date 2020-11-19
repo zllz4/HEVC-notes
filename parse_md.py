@@ -5,7 +5,7 @@ import random
 import urllib.parse
 
 mdFilePaths = glob.glob("docs/**/*.md", recursive=True)
-print(mdFilePaths)
+# print(mdFilePaths)
 # mdFiles = glob.glob("*.md")
 
 latexInLinePattern = r"\$([^\$]+)\$"
@@ -57,9 +57,9 @@ for mdFilePath in mdFilePaths:
         newPicPathEncode = urllib.parse.quote(newPicPath)
         newPicName = os.path.basename(newPicPath).split(".")[0]
 
-        print(f"picPathDecode={picPathDecode}")
-        print(f"newPicPath={newPicPath}")
-        print(f"newPicName={newPicName}")
+        # print(f"picPathDecode={picPathDecode}")
+        # print(f"newPicPath={newPicPath}")
+        # print(f"newPicName={newPicName}")
 
         with open(os.path.join(mdFileDir, picPathDecode), "rb") as f:
             picData = f.read()
