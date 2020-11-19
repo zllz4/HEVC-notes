@@ -1,6 +1,7 @@
 import re
 import os
 import glob
+import random
 import urllib.parse
 
 mdFilePaths = glob.glob("docs/**/*.md", recursive=True)
@@ -37,33 +38,41 @@ for mdFilePath in mdFilePaths:
 
     # process image
     # FIXME: 遇到 markdown 两次引用同一张图片时会有问题
+    # 目的1：保证图片前缀为 md 文件名，后缀为随机数
+    # 目的2：删除多余没有被任何 md 文件引用的图片
     pics = re.findall(picUrlPattern, content)
     picRemoveList = []
     for (idx,pic) in enumerate(pics):
-        (picF, picL) = pic
-        # print(pic)
-        picLDecode = urllib.parse.unquote(picL)
-        newPic = f"markdown_images/{newMdFile[:-3]}_{idx}.{picL.split('.')[-1]}"
-        newPicEncode = urllib.parse.quote(newPic)
-        # print(newPic)
-        if picL == newPicEncode and picF == newPic.split("/")[-1][:-4]:
-            continue
-        with open(os.path.join(mdFileDir, picLDecode), "rb") as f:
-            picData = f.read()
-        with open(os.path.join(mdFileDir, newPic), "wb") as f:
-            f.write(picData)
-        print(f"Move {picL} to {newPic}")
-        # print(content)
-        # print(picL)
-        # print(re.findall(pic, content))
-        # print(re.findall(r"\(\<?"+picL+r"\>?\)", content))
-        # print(re.findall(r"\["+picF+r"\]", content))
-        content = re.sub(r"\(\<?"+picL+r"\>?\)", f"(<{newPicEncode}>)", content)
-        content = re.sub(r"\["+picF+r"\]", f"[{newPic.split('/')[-1][:-4]}]", content)
+        (picName, picPath) = pic
 
+        picPathDecode = urllib.parse.unquote(picPath)
+
+        # 图片文件名符合要求，则此轮循环结束
+        if os.path.basename(picPathDecode).startswith(newMdFile[:-3]):
+            continue
+
+        newPicPath = f"markdown_images/{newMdFile[:-3]}_{random.randint(0,10000)}.{picPathDecode.split('.')[-1]}"
+        while os.path.isfile(newPicPath):
+            newPicPath = f"markdown_images/{newMdFile[:-3]}_{random.randint(0,10000)}.{picPathDecode.split('.')[-1]}"
+        newPicPathEncode = urllib.parse.quote(newPicPath)
+        newPicName = os.path.basename(newPicPath).split(".")[0]
+
+        print(f"picPathDecode={picPathDecode}")
+        print(f"newPicPath={newPicPath}")
+        print(f"newPicName={newPicName}")
+
+        with open(os.path.join(mdFileDir, picPathDecode), "rb") as f:
+            picData = f.read()
         
-        # print(content)
-        picRemoveList.append(picLDecode)
+        with open(os.path.join(mdFileDir, newPicPath), "wb") as f:
+            f.write(picData)
+
+        print(f"Move {picPathDecode} to {newPicPath}")
+
+        content = re.sub(r"\(\<?"+picPath+r"\>?\)", f"({newPicPathEncode})", content)
+        content = re.sub(r"\["+picName+r"\]", f"[{newPicName}]", content)
+        
+        picRemoveList.append(picPathDecode)
     for pic in set(picRemoveList):
         os.remove(os.path.join(mdFileDir, pic))
 
@@ -87,5 +96,20 @@ for mdFilePath in mdFilePaths:
     if newMdFile not in content:
         with open("_sidebar.md", "a", encoding="utf-8") as f:
             f.write("\n")
-            f.write(f"* [{newMdFile[:-3].split('_')[-1]}](<{os.path.join(mdFileDir, newMdFile)}>)")
+            f.write(f"* [{newMdFile[:-3].split('_')[-1]}](<./{os.path.join(mdFileDir, newMdFile)}>)".replace('\\','/'))
             print(f"add {newMdFile} to SUMMARY")
+
+# 删除无引用的图片
+imgFilePaths = glob.glob("docs/**/*.png", recursive=True)
+for imgFilePath in imgFilePaths:
+    imgFileNameEnecode = urllib.parse.quote(os.path.basename(imgFilePath))
+    # print(imgFileNameEnecode)
+    mdFilePaths = glob.glob("docs/**/*.md", recursive=True)
+    for mdFilePath in mdFilePaths:
+        with open(mdFilePath, "r", encoding="utf-8") as f:
+            content = f.read()
+        if imgFileNameEnecode in content:
+            break
+    else:
+        print(f"remove redundant image {imgFilePath}")
+        os.remove(imgFilePath)

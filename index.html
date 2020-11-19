@@ -5,25 +5,21 @@
   <title>Document</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
-  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"> -->
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+  <!-- mermaid css -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+  
+  <!-- theme -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/vue.css"> -->
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/buble.css"> -->
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/dark.css"> -->
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/pure.css"> -->
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/dolphin.css"> -->
-
-  <!-- mermaid css -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
-  <!-- <style type="text/css">
-    .mermaid{
-      text-align: center;
-    }
-  </style> -->
 </head>
 <body>
-  <div id="app">摸鱼中</div>
+  <div id="app">摸鱼中，请稍候</div>
 
   <!-- mermaid script-->
   <script src="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -50,11 +46,21 @@
             return this.origin.code.apply(this, arguments);
           }
         }
-      }, 
+      },
+      plugins: [
+        function(hook, vm) { //让图片居中显示
+          hook.afterEach(function(html) {
+            return html.replace(/<p><img/g, '<p style="text-align:center"><img') //图片居中
+                .replace(/class="mermaid"/g, 'class="mermaid" style="text-align:center"') //让使用mermaid画流程图居中
+          });
+        }
+      ], 
     }
   </script>
+
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  
   <!-- klatex support -->
   <script src="//cdn.jsdelivr.net/npm/docsify-katex@latest/dist/docsify-katex.js"></script>
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"/>
