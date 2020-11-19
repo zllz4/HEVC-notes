@@ -13,15 +13,44 @@
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/dark.css"> -->
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/pure.css"> -->
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/dolphin.css"> -->
+
+  <!-- mermaid css -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+  <!-- <style type="text/css">
+    .mermaid{
+      text-align: center;
+    }
+  </style> -->
 </head>
 <body>
   <div id="app">摸鱼中</div>
+
+  <!-- mermaid script-->
+  <script src="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
   <script>
+    // mermaid init
+    var num = 0;
+    mermaid.initialize({ startOnLoad: false });
+
     window.$docsify = {
       name: 'HEVC NOTES',
       repo: 'https://github.com/zllz4/HEVC-notes',
       loadSidebar: true,
       subMaxLevel: 3,
+      // mermaid render
+      markdown: {
+        renderer: {
+          code: function(code, lang) {
+            if (lang === "mermaid") {
+              return (
+                '<div class="mermaid">' + mermaid.render('mermaid-svg-' + num++, code) + "</div>"
+              );
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      }, 
     }
   </script>
   <!-- Docsify v4 -->
