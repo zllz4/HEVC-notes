@@ -6,11 +6,11 @@
 
 HEVC 全称 High Efficiency Video Coding，中文名为高效率视频编码，是目前广泛使用的一种视频编码标准，也被称为 H.265，在 **2013 年** 正式启用  (成为国际标准)  。在 HEVC 之前流行的视频编码标准是 **H.264 标准  (又称为 MPEG-4 AVC)**  ，在 HEVC 之后将要推广的视频编码标准是 **H.266 标准  (又称为 VVC，此标准于 2020 年 7 月 6 日确定)**  
 
-H.264 维基百科: [网址]([https://zh.wikipedia.org/wiki/H.264/MPEG-4_AVC](https://zh.wikipedia.org/wiki/H.264/MPEG-4_AVC))
+H.264 维基百科: [[网址](https://zh.wikipedia.org/wiki/H.264/MPEG-4_AVC)]
 
-H.265 维基百科: [网址]([https://zh.wikipedia.org/wiki/高效率视频编码](https://zh.wikipedia.org/wiki/%E9%AB%98%E6%95%88%E7%8E%87%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81))
+H.265 维基百科: [[网址](https://zh.wikipedia.org/wiki/高效率视频编码)]
 
-H.266 维基百科: [网址]([https://zh.wikipedia.org/wiki/多功能视频编码](https://zh.wikipedia.org/wiki/%E5%A4%9A%E5%8A%9F%E8%83%BD%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81))
+H.266 维基百科: [[网址](https://zh.wikipedia.org/wiki/多功能视频编码)]
 
 ### 1.2 制定组织
 
@@ -28,20 +28,20 @@ HEVC 以**编解码复杂度提升**为代价实现了相对 H.264 的更大压�
 
 ### 1.4 资源
 
-HEVC 的官方网站：[地址]([https://hevc.hhi.fraunhofer.de/](https://hevc.hhi.fraunhofer.de/))
+HEVC 的官方网站：[地址](https://hevc.hhi.fraunhofer.de/)
 
 从中可以得到以下资源：
 
-- HEVC 的官方开源编解码器 HM  (HEVC Test Model)  ：[地址]([https://vcgit.hhi.fraunhofer.de/jct-vc/HM](https://vcgit.hhi.fraunhofer.de/jct-vc/HM))
-- ITU-T H.265 官方文档：[地址]([https://www.itu.int/rec/T-REC-H.265](https://www.itu.int/rec/T-REC-H.265))
-- HEVC 通用测试环境  (指用来测试编解码效果的程序配置和视频序列)  说明：[地址]([http://phenix.it-sudparis.eu/jct/doc_end_user/documents/12_Geneva/wg11/JCTVC-L1100-v1.zip](http://phenix.it-sudparis.eu/jct/doc_end_user/documents/12_Geneva/wg11/JCTVC-L1100-v1.zip))
+- HEVC 的官方开源编解码器 HM（HEVC Test Model）：[地址](https://vcgit.hhi.fraunhofer.de/jct-vc/HM)
+- ITU-T H.265 官方文档：[地址](https://www.itu.int/rec/T-REC-H.265)
+- HEVC 通用测试环境（指用来测试编解码效果的程序配置和视频序列）说明：[地址](http://phenix.it-sudparis.eu/jct/doc_end_user/documents/12_Geneva/wg11/JCTVC-L1100-v1.zip)
 
 其它有用资源有：
 
-- HEVC 通用测试环境中的视频序列下载：[地址]([https://blog.csdn.net/abcSunl/article/details/53841953](https://blog.csdn.net/abcSunl/article/details/53841953))
-- 码流分析软件 Elecard HEVC Analyzer 下载：[地址]([https://www.0daydown.com/10/446234.html](https://www.0daydown.com/10/446234.html))
-- 开源 YUV 视频查看器 YUView 下载：[地址]([https://github.com/IENT/YUView](https://github.com/IENT/YUView))
-- 参考论文：[Overview of the High Efficiency Video Coding(HEVC) Standard]([http://iphome.hhi.de/wiegand/assets/pdfs/2012_12_IEEE-HEVC-Overview.pdf](http://iphome.hhi.de/wiegand/assets/pdfs/2012_12_IEEE-HEVC-Overview.pdf))
+- HEVC 通用测试环境中的视频序列下载：[地址](https://blog.csdn.net/abcSunl/article/details/53841953)
+- 码流分析软件 Elecard HEVC Analyzer 下载：[地址](https://www.0daydown.com/10/446234.html)
+- 开源 YUV 视频查看器 YUView 下载：[地址](https://github.com/IENT/YUView)
+- 参考论文：[Overview of the High Efficiency Video Coding(HEVC) Standard](http://iphome.hhi.de/wiegand/assets/pdfs/2012_12_IEEE-HEVC-Overview.pdf)
 - 参考书籍：新一代高效视频编码H.265HEVC原理、标准与实现 [万帅，杨付正 编著] 2014年版
 - 参考书籍：High Efficiency Video Coding (HEVC): Algorithms and Architectures
 
@@ -53,7 +53,7 @@ HEVC 的官方网站：[地址]([https://hevc.hhi.fraunhofer.de/](https://hevc.h
 
 1. 视频需要压缩，未经压缩的视频**体积过大**
 
-   以 [此网站]([https://juejin.im/post/6844904000194625550](https://juejin.im/post/6844904000194625550)) 所举的例子为例，分辨率 1920x1080，帧率 30 的真彩色视频，如果不经过压缩，**每秒大小为 186.6MB，90 分钟视频大小将达到 984GB**，接近 1TB 量级
+   以 [此网站](https://juejin.im/post/6844904000194625550) 所举的例子为例，分辨率 1920x1080，帧率 30 的真彩色视频，如果不经过压缩，**每秒大小为 186.6MB，90 分钟视频大小将达到 984GB**，接近 1TB 量级
 
 2. 视频能够压缩，视频中的图片存在**空间冗余性**和**时间冗余性**
 
@@ -65,6 +65,6 @@ HEVC 的官方网站：[地址]([https://hevc.hhi.fraunhofer.de/](https://hevc.h
 
 ### 2.2 发展历程
 
-视频编码标准的发展示意图如下  (图片来源[维基百科]([https://zh.wikipedia.org/wiki/視訊壓縮](https://zh.wikipedia.org/wiki/%E8%A6%96%E8%A8%8A%E5%A3%93%E7%B8%AE)))  
+视频编码标准的发展示意图如下 (图片来源[维基百科](https://zh.wikipedia.org/wiki/%E8%A6%96%E8%A8%8A%E5%A3%93%E7%B8%AE))   
 
-![1_HEVC 的基本介绍_0](<markdown_images/1_HEVC 的基本介绍_0.png>)
+![HEVC_0](<markdown_images/HEVC_0.png>)
