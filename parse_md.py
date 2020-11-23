@@ -40,6 +40,8 @@ for mdFilePath in mdFilePaths:
     # FIXME: 遇到 markdown 两次引用同一张图片时会有问题
     # 目的1：保证图片前缀为 md 文件名，后缀为随机数
     # 目的2：删除多余没有被任何 md 文件引用的图片
+    if not os.path.isdir(os.path.join(mdFileDir, "markdown_images")):
+        os.mkdir(os.path.join(mdFileDir, "markdown_images"))
     pics = re.findall(picUrlPattern, content)
     picRemoveList = []
     for (idx,pic) in enumerate(pics):
