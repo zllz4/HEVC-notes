@@ -18,4 +18,5 @@
 * **帧间编码**
   * [流程简介](<./docs/CP5_帧间编码/流程简介.md>)
   * [播放顺序与解码顺序](<./docs/CP5_帧间编码/播放顺序与解码顺序.md>)
-  * [Merge 模式](<./docs/CP5_帧间编码/Merge%20模式.md>)
+  * [Merge](<./docs/CP5_帧间编码/Merge.md>)
+  * [AMVP](<./docs/CP5_帧间编码/AMVP.md>)

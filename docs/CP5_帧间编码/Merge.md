@@ -1,4 +1,4 @@
-# Merge 模式
+# Merge
 
 ## 1 概述
 
@@ -6,11 +6,13 @@
 
 Merge 模式是帧间编码中进行运动估计的方法之一，其特点为能够从时域或空域的相邻块中获取运动信息，**不需要对运动信息进行显式传输**
 
-### 1.2 运动向量候选
+## 2 MV 预测
+
+### 2.1 运动向量候选
 
 Merge 模式允许**五个运动向量预测候选**，其**从五个候选中选出一个率失真最小的最佳候选**作为当前 PU 区块的运动向量。五个候选将从**五个空域位置**和**一个时域位置**中产生，如下图
 
-![Merge 模式_1829](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_1829.png)
+![Merge_933](markdown_images/Merge_933.png)
 
 ### 1.3 空域候选
 
@@ -22,7 +24,7 @@ Merge 模式允许**五个运动向量预测候选**，其**从五个候选中�
 
 1. 检查**是否两个候选含有相同的运动信息**，需要按以下顺序进行五次比较，比较顺序如下
 
-    ![Merge 模式_1120](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_1120.png)
+    ![Merge_9486](markdown_images/Merge_9486.png)
 
 2. 检查**是否当前块加上候选块可正好组成当前块所属的 CU**，这种情况下如果对该候选块进行 Merge 操作，就等价于先把一个 CU 划分成两个 PU，然后又用 Merge 把这两个 PU 合起来，这样对 CU 的划分就没有意义了，所以要避免这种情况
 
@@ -30,21 +32,21 @@ Merge 模式允许**五个运动向量预测候选**，其**从五个候选中�
 
     图示如下
 
-    ![Merge 模式_580](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_580.png)
+    ![Merge_9405](markdown_images/Merge_9405.png)
 
     对于 (a)，A1 没了，对于 (b)，B1 没了，没了的原因是如果 PU1 参考 PU2，那么就等价于这个 CU 不分割成两个 PU
 
-### 1.4 时域候选
+### 2.3 时域候选
 
 时域候选从**同位图片**（co-located  picture）**里选择合适的候选区块，其 MV 经过 scale 后作为 TMVP**（temporal motion vector predictor）**候选**，如图 5.4(a)，右下区块 **C0 被优先考虑**，中心区块 **C1 被第二考虑。**HEVC 只允许存在 1 个时域候选。 
 
-![Merge 模式_304](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_304.png)
+![Merge_685](markdown_images/Merge_685.png)
 
 > 右下区块是指右下角的那个正对的像素所属的区块，至于中间区块是怎么判断的还不知道
 
 MV Scaling 的公式如下图，其理解可以看上图的公式 4-2，一些奇奇怪怪的操作是干嘛的我也不懂
 
-![Merge 模式_4349](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_4349.png)
+![Merge_4827](markdown_images/Merge_4827.png)
 
 以下是关于公式变量的说明：
 
@@ -54,13 +56,13 @@ MV Scaling 的公式如下图，其理解可以看上图的公式 4-2，一些�
 
 > 参考图片索引似乎不是从候选区块继承的，显然这里当前图片的参考图片和时域候选区块的参考图片不是同一个，它是什么时候选的还是不清楚，这里好多不知道。。。需要看代码或者文档
 
-### 1.5 额外候选
+### 2.4 额外候选
 
-Merge 模式候选列表长度是**固定**的，但是因某些原因可用的空域和时域候选个数可能小于列表长度，因此需要加入**额外候选**把列表填满**。**额外候选的产生有两种方式，一种是通过**结合已有候选的数据产生新的候选**，一种是采用**零运动向量**作为候选。
+Merge 模式候选列表长度是**固定**的，但是因某些原因可用的空域和时域候选个数可能小于列表长度，因此需要加入**额外候选**把列表填满。额外候选的产生有两种方式，一种是通过**结合已有候选的数据产生新的候选**，一种是采用**零运动向量**作为候选。
 
-B slice 将首先采用**基于已有候选结合产生新的双向候选**的方式产生额外候选，按照如下顺序结合前 0~3 号候选产生额外候选
+B slice 将首先采用**结合已有候选的数据产生新的候选**的方式产生额外候选，按照如下顺序结合前 0~3 号候选产生额外候选
 
-![Merge 模式_3732](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_3732.png)
+![Merge_68](markdown_images/Merge_68.png)
 
 首先结合 0 号候选的参考序列 0 的运动信息和 1 号候选参考序列 1 的运动信息产生新的候选，如果不行，那么尝试结合 1 号候选的参考序列 0 的运动信息和 0 号候选参考序列 1 的运动信息，以此类推
 
@@ -68,9 +70,9 @@ B slice 将首先采用**基于已有候选结合产生新的双向候选**的�
 
 对于 P slice 或 B slice 中加入结合产生的新双向候选后列表依旧没满的 PU，将采用**零运动向量**作为额外候选，零运动向量候选包括数值为零的运动向量（如果是双向预测，那么是两个数值为零的运动向量）和从零开始递增的参考图片序列索引，当索引递增至超过最大值时，之后的索引全部使用零替代，额外候选不会进行冗余性检查
 
-## 2 补充笔记
+## 3 补充笔记
 
-### 2.1 Merge 模式标志位
+### 3.1 Merge 模式标志位
 
 Merge 模式需要以下标志位
 
@@ -79,32 +81,32 @@ Merge 模式需要以下标志位
 3. `five_minus_max_num_merge_cand` ：Slice 层次，在 slice 头部由定义，表明 **Merge 模式候选列表的长度**，其值为默认长度（5）与实际长度的差值
 4. `skip_flag`：CU 层次（但这个 CU 一定要按照 2Nx2N 划分 PU，所以其实也是 PU 层次），标志**此 CU 为 skip 模式**，skip 模式的意义如下
 
-    ![Merge 模式_7385](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_7385.png)
+    ![Merge_6077](markdown_images/Merge_6077.png)
 
     skip 模式**不传输 MVD**，也**不传输残差**
 
-### 2.2 时域候选的开关
+### 3.2 时域候选的开关
 
 HEVC 可以通过 `sps_temporal_mvp_enabled_flag` 或者 `slice_temporal_mvp_enabled_flag` 关闭 TMVP 的选用，前者是在**序列层次**，后者**需要在图片层次**，即一个图片中的所有 `slice_temporal_mvp_enabled_flag` 均需要相同，其**没有使用 pps 开头的标志位作为单个图片 TMVP 选用的开关**
 
-### 2.3 同位图片
+### 3.3 同位图片
 
 !> 同位图片不是当前图片的参考图片，是当前图片的时域候选所在的图片
 
 同位图片的选择由 slice 类型、`collocated_from_l0_flag` 和 `collocated_ref_idx` 确定，其规则如下
 
-![Merge 模式_5583](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_5583.png)
+![Merge_978](markdown_images/Merge_978.png)
 
-![Merge 模式_7432](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_7432.png)
+![Merge_2524](markdown_images/Merge_2524.png)
 
 每张图片上的**所有 PU 均采用同一张图片作为同位图片**（co-located picture），同位图片**在参考图片序列 0 或 1**（reference picture list 0/1）**中进行选择**，由 `collocated_from_l0_flag` 确定，具体索引则由 `collocated_ref_idx` 确定，其选择操作在片头（slice header）解码后进行，虽然这个变量是 slice 层次的（一张图片包含多个 slice），但是一张图片的所有 slice 的同位图片都必须相同
 
 > slice_type 0 是 B slice，slice_type 1 是 P slice，slice_type 2 是 I slice
 
-### 2.4 Merge 模式的意义
+### 3.4 Merge 模式的意义
 
 Q：为什么要使用 Merge？
 
 A：因为四叉树的划分方式会造成一些冗余的区块，所谓冗余，是指**不同的区块拥有相同的运动信息**，比如下图，（b）为对含有运动物体图片的 CU 划分，将拥有相同运动信息的区块合并，可以得到（c），对比 （b）（c）可以发现冗余区块占据了相当比例，因此采用 Merge 方法能够有效的缓解这种冗余区块带来的性能损失
 
-![Merge 模式_4203](markdown_images/Merge%20%E6%A8%A1%E5%BC%8F_4203.png)
+![Merge_3262](markdown_images/Merge_3262.png)
