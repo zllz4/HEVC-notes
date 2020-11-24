@@ -95,7 +95,8 @@ for mdFilePath in mdFilePaths:
     # update summary
     with open("_sidebar.md", "r", encoding="utf-8") as f:
         content = f.read()
-    if newMdFile[:-3] not in content:
+    if os.path.join(mdFileDir, newMdFile).replace('\\','/') not in content:
+        # print(os.path.join(mdFileDir, newMdFile))
         with open("_sidebar.md", "a", encoding="utf-8") as f:
             f.write("\n")
             f.write(f"* [{newMdFile[:-3].split('_')[-1]}](<./{os.path.join(mdFileDir, newMdFile)}>)".replace('\\','/'))
