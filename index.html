@@ -82,14 +82,14 @@
           }
         }
       },
-      plugins: [
-        function(hook, vm) { //让图片居中显示
-          hook.afterEach(function(html) {
-            return html.replace(/<p><img/g, '<p style="text-align:center"><img') //图片居中
-                .replace(/class="mermaid"/g, 'class="mermaid" style="text-align:center"') //让使用mermaid画流程图居中
-          });
-        }
-      ], 
+      // plugins: [
+      //   function(hook, vm) { //让图片居中显示
+      //     hook.afterEach(function(html) {
+      //       return html.replace(/<p><img/g, '<p style="text-align:center"><img') //图片居中
+      //           .replace(/class="mermaid"/g, 'class="mermaid" style="text-align:center"') //让使用mermaid画流程图居中
+      //     });
+      //   }
+      // ], 
     }
   </script>
 
