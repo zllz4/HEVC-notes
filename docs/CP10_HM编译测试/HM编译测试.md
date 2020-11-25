@@ -1,0 +1,58 @@
+# HM 编译测试
+
+## 1 概述
+
+HM 全称 HEVC Test Model，为 **HEVC 官方提供的编解码器源码**，其由 `c++` 编写，目前（2020 年）的最新版本为 16.22。由于 HM 16.20 往后似乎由 vs 改为了 cmake 进行 build，以下采用 vs 进行操作的方法仅最高适用于 HM 16.20
+
+## 2 编译测试流程
+
+HM 编辑测试流程如下
+
+1. 从[此网站](https://vcgit.hhi.fraunhofer.de/jct-vc/HM)下载 HM 16.20 版本（HM 16.20 版本之后的版本没有 sln 文件）
+2. 打开某个版本的 sln，vs 会默认提示你是否要升级，选择升级（重定向）到你的 vs 的工具集版本
+3. **编译编码器**，选择 TAppEncoder，设为启动项目，按 F5 编译
+
+    > vs 里面一个解决方案可以有多个项目，可以设置其中的某一个项目为 ”启动项目“
+
+    图示如下
+
+    ![HM编译测试_9756](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_9756.png)
+
+4. **编译解码器**，选择 TAppDecoder，设为启动项目，按 F5 编译，此时可以在 `bin\vc2015\Win32\Debug` 目录下找到 `TAppEncoder.exe` 和 `TAppDecoder.exe`
+5. 从[此网站](https://blog.csdn.net/abcSunl/article/details/53841953)中下载视频测试文件，百度网盘加速请各显神通，目前暂时有效的是 [Kinhdown](https://kinhdown.kinh.cc/)，怕[病毒](https://r.virscan.org/language/zh-cn/report/05781f4b905e9a75ef42bd58c615cbbd)可以在虚拟机里面启动，或者使用[在线解析](https://pan.kdbaidu.com/)。**CTC**（Common Test Condition）中定义的视频测试序列如下
+
+    ![HM编译测试_1818](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_1818.png)
+
+    ![HM编译测试_9481](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_9481.png)
+
+6. 5 步骤下载下来的视频是 `.yuv` 格式的，从[此网站](https://github.com/IENT/YUView/releases)下载能够查看 `.yuv` 格式视频的播放器，下载完成后试验一下能否打开，正常结果如下
+
+    ![HM编译测试_304](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_304.png)
+
+    按一下空格开始播放，再按一下暂停，这个软件可以查看视频文件的**实际帧数**，有时候视频文件的实际帧数会比之前表格上写的多一帧，多出来那个是黑底白字的版权说明
+
+7. 将 `cfg/encoder_intra_main.cfg` 以及 `cfg\per-sequence\BasketballDrill.cfg` 复制到 `bin\vc2015\Win32\Debug` 目录下，**前者保持默认，将后者按照如下规则修改**
+
+    ```shell
+    #======== File I/O ===============
+    InputFile                     : /path/to/yuv # 要修改，YUV 文件位置
+    InputBitDepth                 : 8           # 输入视频比特深度，注意 A Class 里面的 Nebuta 和 SteamLocomotive 是 10 bit 要修改
+    InputChromaFormat             : 420         # Ratio of luminance to chrominance samples
+    FrameRate                     : 50          # 要修改，每秒播放多少帧，见上表
+    FrameSkip                     : 0           # Number of frames to be skipped in input
+    SourceWidth                   : 352         # 要修改，视频宽度，见上表
+    SourceHeight                  : 288         # 要修改，视频长度，见上表
+    FramesToBeEncoded             : 2000         # 要修改，想要编码的帧数（最大为视频帧数），见上表
+
+    Level                         : 3.1
+    ```
+
+8. 输入 `TAppEncoder.exe -c encoder_intra_main.cfg -c BasketballDrill.cfg` 开始编码，编码结束后可以得到 `rec.yuv` 以及 `str.bin` 文件，前者是在编码过程中重建输入的文件，后者是视频的最终编码结果，两者的大小之比就是压缩率
+9. 使用 **potplayer** 可以观看 `.bin` 文件，检查是否压缩后能够正常播放，此时按 tab 可以输出视频详细信息
+10. cfg 文件夹的以下配置可以选择，提供不同的编码功能，使用方法同上，把配置复制过去然后 `-c` 引用
+    - `encoder_intra_main.cfg`：纯 I 帧编码，8/10 bit 输入，8 bit 输出，**使用 potplayer 播放时会发现可以拖动进度条到任意位置，压缩率低**
+    - `encoder_lowdelay.cfg`： 第一个 I 帧之后全是 B 帧，B 帧只参考前面的帧不参考后面的帧，输入输出同上，**使用 potplayer 播放时会发现无法拖动进度条，压缩率高**
+    - `encoder_lowdelay_P.cfg`： 第一个 I 帧之后全是 P 帧，输入输出同上，**使用 potplayer 播放时会发现无法拖动进度条，压缩率高**
+    - `encoder_randomaccess.cfg`：每 16 帧一组，每组以 I 帧开头，后面是 B 帧，B 帧前向后向均有参考，输入输出同上，**使用 potplayer 播放时会发现可以在某些位置拖动进度条，压缩率高**
+    - `encoder_xxx_main10.cfg`：xxx 为 `intra` 或 `lowdelay` 等，功能等同于 `encoder_xxx.cfg` 的功能，8/10 bit 输入，10 bit 输出
+11. 在 vs 中可以调整生成的 exe 属于 debug 环境还是 release 环境，之前默认生成的是 debug 环境，事实上 release 环境生成的 exe 文件编码速度比 debug 生成的 exe 文件快的多
