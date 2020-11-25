@@ -54,7 +54,7 @@ for mdFilePath in mdFilePaths:
             continue
 
         newPicPath = f"markdown_images/{newMdFile[:-3]}_{random.randint(0,10000)}.{picPathDecode.split('.')[-1]}"
-        while os.path.isfile(newPicPath):
+        while os.path.isfile(os.path.join(mdFileDir, newPicPath)):
             newPicPath = f"markdown_images/{newMdFile[:-3]}_{random.randint(0,10000)}.{picPathDecode.split('.')[-1]}"
         newPicPathEncode = urllib.parse.quote(newPicPath)
         newPicName = os.path.basename(newPicPath).split(".")[0]
