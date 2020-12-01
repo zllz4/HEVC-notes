@@ -6,11 +6,11 @@
 
 去方块滤波器（Deblocking Filter，DPF）是环路滤波阶段的第一个滤波器，用于去除方块效应。方块效应是由于**块与块之间的不连续性**而在恢复图像中产生的矩形状视觉瑕疵，典型示例如下图（图片截自[此 Youtube 视频](https://www.youtube.com/watch?v=PKXIwixuA_E)）
 
-![去方块滤波器_DPF_5446](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_5446.png)
+![去方块滤波器_DPF_1757](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_1757.png)
 
 下图为块与块之间”不连续“的示意图
 
-![去方块滤波器_DPF_4108](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_4108.png)
+![去方块滤波器_DPF_8058](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_8058.png)
 
 如上图的这种不连续性广泛存在于 **TU**（由于独立的变换量化）**和 PU**（由于不同的帧内编码模式或者帧间编码运动信息）**的边界**之间。在纹理丰富的区域，方块效应容易被人眼忽略，但是在颜色值的变化较为有限的平坦区域则不会。因此，**HEVC 的 DPF 主要对平坦、单值区域的 TU 和 PU 边界像素进行去方块滤波。**（也就是 $p_3 - p_0$ 的变化较小且 $q_0 - q_3$ 的变化也较小时进行滤波）
 
@@ -18,7 +18,7 @@
 
 去方块滤波主要分为四个步骤，分别为**获取边界**、**计算边界强度**（Boundary Strength，**Bs**）、**执行滤波决策**和最终**滤波**，流程图如下
 
-![去方块滤波器_DPF_326](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_326.png)
+![去方块滤波器_DPF_5136](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_5136.png)
 
 ### 1.2 获取边界
 
@@ -28,9 +28,9 @@
 
 边界强度计算主要用于下一步滤波决策判断是否需要滤波以及采用何种滤波类型，其可以视为方块效应的发生机率，边界强度越大，则方块效应的发生机率越大，边界强度计算的规则如下
 
-![去方块滤波器_DPF_838](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_838.png)
+![去方块滤波器_DPF_7439](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_7439.png)
 
-![去方块滤波器_DPF_9590](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_9590.png)
+![去方块滤波器_DPF_1027](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_1027.png)
 
 如果为亮度分量，当边界强度大于 0 时进行滤波，如果为色度分量，当边界强度大于 1 时进行滤波
 
@@ -38,26 +38,26 @@
 
 在确定了某像素链位置是 8 的倍数，且是边界，且边界强度符合 DPF 要求后，进入滤波决策环节，滤波决策环节将根据边界 **line 0 和 line 3 左右各三个**像素值决定**是否进行滤波**以及**是否进行强滤波**，决定进行滤波的条件如下
 
-![去方块滤波器_DPF_5237](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_5237.png)
+![去方块滤波器_DPF_2160](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_2160.png)
 
 公式 7.1 中的四个二阶导的和在中文书中被称为**纹理度**，当纹理度较大，说明边界左右各自像素值变化较大，不需要滤波，如果纹理度较小，则说明边界左右各自像素值变化较小，较为平坦，需要滤波
 
 $\beta$ 的选取由下表通过 $QP_L$ 值确定
 
-![去方块滤波器_DPF_433](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_433.png)
+![去方块滤波器_DPF_3881](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_3881.png)
 
 下图为上表的曲线表示形式
 
-![去方块滤波器_DPF_1049](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_1049.png)
+![去方块滤波器_DPF_7980](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_7980.png)
 
 其中 $\beta'$ 与 $\beta$ 的关系如下
 
-![去方块滤波器_DPF_4515](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_4515.png)
+![去方块滤波器_DPF_2088](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_2088.png)
 
 $QP_L$ 与 $QP$ 的关系如下
 
-![去方块滤波器_DPF_6543](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_6543.png)
+![去方块滤波器_DPF_5134](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_5134.png)
 
-![去方块滤波器_DPF_8587](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_8587.png)
+![去方块滤波器_DPF_2602](markdown_images/%E5%8E%BB%E6%96%B9%E5%9D%97%E6%BB%A4%E6%B3%A2%E5%99%A8_DPF_2602.png)
 
 $QP_P$ 与 $QP_Q$ 为 PQ 两区块的 QP 值

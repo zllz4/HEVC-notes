@@ -3,6 +3,7 @@ import os
 import glob
 import random
 import urllib.parse
+import hashlib
 
 mdFilePaths = glob.glob("docs/**/*.md", recursive=True)
 # print(mdFilePaths)
@@ -24,8 +25,12 @@ for mdFilePath in mdFilePaths:
     
     newMdFile = re.sub(notionExportNamePattern, "", mdFile)
 
+    # 保证文件名相同时生成图片的随机数名相同，尽量防止 git 重复删除加入图片
+    seed = int(hashlib.md5(newMdFile.encode("utf-8")).hexdigest(), 16) % 1e7
+    random.seed(seed)
+
     with open(mdFilePath, "r", encoding="utf-8") as f:
-        print(f"Parse {mdFile}")
+        print(f"Parse {mdFile} (seed {seed})")
         content = f.read()
 
 #     # # replace latex formula
