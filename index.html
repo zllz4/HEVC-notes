@@ -18,7 +18,7 @@
 
   <!-- mermaid css -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
-  
+
   <!-- theme -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/vue.css"> -->
@@ -91,6 +91,12 @@
           }
         }
       },
+      count:{
+        countable:true,
+        fontsize:'0.9em',
+        color:'rgb(90,90,90)',
+        language:'chinese'
+      },
       // plugins: [
       //   function(hook, vm) { //让图片居中显示
       //     hook.afterEach(function(html) {
@@ -118,5 +124,8 @@
 
   <!-- parse emoji correctly -->
   <script src="//unpkg.com/docsify/lib/plugins/emoji.js"></script>
+
+  <!-- word count -->
+  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
 </body>
 </html>
