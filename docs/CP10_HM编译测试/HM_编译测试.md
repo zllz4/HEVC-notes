@@ -16,24 +16,24 @@ HM 编辑测试流程如下
 
     图示如下
 
-    ![HM编译测试_9756](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_9756.png)
+    ![HM_编译测试_1241](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_1241.png)
 
 4. **编译解码器**，选择 TAppDecoder，设为启动项目，按 F5 编译，此时可以在 `bin\vc2015\Win32\Debug` 目录下找到 `TAppEncoder.exe` 和 `TAppDecoder.exe`
-5. 从[此网站](https://blog.csdn.net/abcSunl/article/details/53841953)中下载视频测试文件，百度网盘加速请各显神通，目前暂时有效的是 [Kinhdown](https://kinhdown.kinh.cc/)，怕[病毒](https://r.virscan.org/language/zh-cn/report/05781f4b905e9a75ef42bd58c615cbbd)可以在虚拟机里面启动，或者使用[在线解析](https://pan.kdbaidu.com/)。**CTC**（Common Test Condition）中定义的视频测试序列如下
+5. 从[此网站](https://blog.csdn.net/abcSunl/article/details/53841953)中下载视频测试文件，**CTC**（Common Test Condition）中定义的视频测试序列如下
 
-    ![HM编译测试_1818](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_1818.png)
+    ![HM_编译测试_1442](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_1442.png)
 
-    ![HM编译测试_9481](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_9481.png)
+    ![HM_编译测试_9692](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_9692.png)
 
 6. 5 步骤下载下来的视频是 `.yuv` 格式的，从[此网站](https://github.com/IENT/YUView/releases)下载能够查看 `.yuv` 格式视频的播放器，下载完成后试验一下能否打开，正常结果如下
 
-    ![HM编译测试_304](markdown_images/HM%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_304.png)
+    ![HM_编译测试_2996](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_2996.png)
 
     按一下空格开始播放，再按一下暂停，这个软件可以查看视频文件的**实际帧数**，有时候视频文件的实际帧数会比之前表格上写的多一帧，多出来那个是黑底白字的版权说明
 
 7. 将 `cfg/encoder_intra_main.cfg` 以及 `cfg\per-sequence\BasketballDrill.cfg` 复制到 `bin\vc2015\Win32\Debug` 目录下，**前者保持默认，将后者按照如下规则修改**
 
-    ```shell
+    ```bash
     #======== File I/O ===============
     InputFile                     : /path/to/yuv # 要修改，YUV 文件位置
     InputBitDepth                 : 8           # 输入视频比特深度，注意 A Class 里面的 Nebuta 和 SteamLocomotive 是 10 bit 要修改

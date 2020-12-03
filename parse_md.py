@@ -23,7 +23,7 @@ for mdFilePath in mdFilePaths:
 #         continue
 
     
-    newMdFile = re.sub(notionExportNamePattern, "", mdFile)
+    newMdFile = re.sub(notionExportNamePattern, "", mdFile).replace(" ","_")
 
     # 保证文件名相同时生成图片的随机数名相同，尽量防止 git 重复删除加入图片
     seed = int(hashlib.md5(newMdFile.encode("utf-8")).hexdigest(), 16) % 1e7
