@@ -33,10 +33,11 @@
   * [特殊编码模式](<./docs/CP7_变换量化/特殊编码模式.md>)
 * **环路滤波**
   * [简介](<./docs/CP9_环路滤波_ZYJ/简介.md>)
-  * [DPF](<./docs/CP9_环路滤波_ZYJ/去方块滤波器_DPF.md>)
+  * [DPF](<./docs/CP9_环路滤波_ZYJ/DPF.md>)
 * **环路滤波 (H.264) by LH**
   * [环路滤波](<./docs/CP9_环路滤波/环路滤波.md>)
 * **熵编码 (H.264) by LH**
   * [熵编码](<./docs/CP8_熵编码/熵编码.md>)
 * **其它**
   * [x264 安装与 hello world](<./docs/CP11_其它/x264_安装与_hello_world.md>)
+

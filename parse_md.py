@@ -25,12 +25,13 @@ for mdFilePath in mdFilePaths:
     
     newMdFile = re.sub(notionExportNamePattern, "", mdFile).replace(" ","_")
 
-    # 保证文件名相同时生成图片的随机数名相同，尽量防止 git 重复删除加入图片
-    seed = int(hashlib.md5(newMdFile.encode("utf-8")).hexdigest(), 16) % 1e7
-    random.seed(seed)
+    # # 保证文件名相同时生成图片的随机数名相同，尽量防止 git 重复删除加入图片
+    # # 好像 git 能够识别不同文件名的图片是同一张只不过重命名了？
+    # seed = int(hashlib.md5(newMdFile.encode("utf-8")).hexdigest(), 16) % 1e7
+    # random.seed(seed)
 
     with open(mdFilePath, "r", encoding="utf-8") as f:
-        print(f"Parse {mdFile} (seed {seed})")
+        print(f"Parse {mdFile} (seed null)")
         content = f.read()
 
 #     # # replace latex formula
