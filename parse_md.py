@@ -44,7 +44,7 @@ for mdFilePath in mdFilePaths:
 
     # process image
     # FIXME: 遇到 markdown 两次引用同一张图片时会有问题
-    # 目的1：保证图片前缀为 md 文件名，后缀为随机数
+    # 目的1：保证图片前缀为 md 文件名，后缀为图片内容的 hash 值 % 1e7
     # 目的2：删除多余没有被任何 md 文件引用的图片
     if not os.path.isdir(os.path.join(mdFileDir, "markdown_images")):
         os.mkdir(os.path.join(mdFileDir, "markdown_images"))
@@ -59,9 +59,15 @@ for mdFilePath in mdFilePaths:
         if os.path.basename(picPathDecode).startswith(newMdFile[:-3]):
             continue
 
-        newPicPath = f"markdown_images/{newMdFile[:-3]}_{random.randint(0,10000)}.{picPathDecode.split('.')[-1]}"
+        with open(os.path.join(mdFileDir, picPathDecode), "rb") as f:
+            picData = f.read()
+
+        hash_num = int(int(hashlib.md5(picData).hexdigest(), 16) % 1e5)
+        newPicPath = f"markdown_images/{newMdFile[:-3]}_{hash_num}.{picPathDecode.split('.')[-1]}"
+        i = 0
         while os.path.isfile(os.path.join(mdFileDir, newPicPath)):
-            newPicPath = f"markdown_images/{newMdFile[:-3]}_{random.randint(0,10000)}.{picPathDecode.split('.')[-1]}"
+            i = i + 1
+            newPicPath = f"markdown_images/{newMdFile[:-3]}_{hash_num}_{i}.{picPathDecode.split('.')[-1]}"
         newPicPathEncode = urllib.parse.quote(newPicPath)
         newPicName = os.path.basename(newPicPath).split(".")[0]
 
@@ -69,8 +75,7 @@ for mdFilePath in mdFilePaths:
         # print(f"newPicPath={newPicPath}")
         # print(f"newPicName={newPicName}")
 
-        with open(os.path.join(mdFileDir, picPathDecode), "rb") as f:
-            picData = f.read()
+
         
         with open(os.path.join(mdFileDir, newPicPath), "wb") as f:
             f.write(picData)
