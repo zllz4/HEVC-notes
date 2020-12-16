@@ -38,5 +38,5 @@
   * [环路滤波](<./docs/CP9_环路滤波/环路滤波.md>)
 * **熵编码 (H.264) by LH**
   * [熵编码](<./docs/CP8_熵编码/熵编码.md>)
-* **其它**
-  * [x264 安装与 hello world](<./docs/CP11_其它/x264_安装与_hello_world.md>)
+* **x264**
+  * [x264 安装与 hello world](<./docs/CP11_x264/x264_安装与_hello_world.md>)

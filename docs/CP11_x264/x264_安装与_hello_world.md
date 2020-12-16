@@ -28,7 +28,7 @@ make install
 
     安装完成之后会有三个 exe 和一个 cmd，如下图，三个 exe 的主要区别在于其打开时默认的环境配置不同，详见[此网站](https://hustlei.github.io/2018/11/msys2-for-win.html)，`msys2_shell.cmd` 可以自由选择打开哪个 exe，所以可以主要用这个 cmd 文件
 
-    ![x264_安装与_hello_world_719](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_719.png)
+    ![x264_安装与_hello_world_52512](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_52512.png)
 
 2. 在安装完成之后，需要将安装目录加入系统环境变量，怎么加看[百度经验](https://jingyan.baidu.com/article/ca41422f17107a1eaf99ed64.html)
 3. 在你需要打开 msys2 的目录的地址栏输入以下内容然后按回车，**前面 `D:\xxx` 需要更换为你自己的 msys2 的 cmd 文件位置**
@@ -39,11 +39,11 @@ make install
 
     如下图然后按回车
 
-    ![x264_安装与_hello_world_4767](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_4767.png)
+    ![x264_安装与_hello_world_28224](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_28224.png)
 
     如此可以打开指定的 msys2 的 exe 文件并自动将其工作目录设定为当前文件夹
 
-    ![x264_安装与_hello_world_559](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_559.png)
+    ![x264_安装与_hello_world_54272](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_54272.png)
 
 4. （可跳过）如果你有自己的其它终端软件，不想使用 msys2 默认的 mintty，可以输入如下指令以直接在当前终端中打开 msys2
 
@@ -53,7 +53,7 @@ make install
 
     效果如下，直接在当前终端中打开
 
-    ![x264_安装与_hello_world_4924](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_4924.png)
+    ![x264_安装与_hello_world_30976](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_30976.png)
 
 ### 2.2 MinGW64 等环境安装
 
@@ -86,7 +86,7 @@ make install
 
     成功之后可以在 build 文件夹下找到 x264 的 dll 文件
 
-    ![x264_安装与_hello_world_5881](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_5881.png)
+    ![x264_安装与_hello_world_94752](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_94752.png)
 
 2. 使用 pexports 将 dll 文件转为 lib 文件
 
@@ -157,11 +157,13 @@ make install
     x264_threading_init
     ```
 
-## 3 Visual Studio 编译测试
+## 3 编译测试
+
+### 3.1 Visual Studio 编译测试
 
 1. 使用 Visual Studio 新建基于 c++ 的控制台程序
 
-    ![x264_安装与_hello_world_6759](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_6759.png)
+    ![x264_安装与_hello_world_40096](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_40096.png)
 
 2. 把两个头文件 `x264.h` 和 `x264_config.h` 加入项目，把 cpp 文件的内容从 hello world 改成如下
 
@@ -188,16 +190,35 @@ make install
 
     项目结构大概如下
 
-    ![x264_安装与_hello_world_4053](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_4053.png)
+    ![x264_安装与_hello_world_3616](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_3616.png)
 
 3. 右键生成项目
 
-    ![x264_安装与_hello_world_6755](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_6755.png)
+    ![x264_安装与_hello_world_83232](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_83232.png)
 
 4. 在 VS 项目目录下的 debug 目录下找到生成的 exe 文件，**复制到与前面的 dll 文件和 lib 文件同一目录**
 
-    ![x264_安装与_hello_world_1201](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_1201.png)
+    ![x264_安装与_hello_world_50816](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_50816.png)
 
 5. 打开 cmd 运行 exe 文件，得到输出
 
-    ![x264_安装与_hello_world_945](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_945.png)
+    ![x264_安装与_hello_world_68896](markdown_images/x264_%E5%AE%89%E8%A3%85%E4%B8%8E_hello_world_68896.png)
+
+### 3.2 MSYS2 环境 GCC 编译测试
+
+使用 Visual Studio 编译需要建立一个环境很麻烦，在 MSYS2 命令行下可以直接通过 Mingw64 中的 GCC 进行编译测试，仅需要 `.dll` 文件
+
+首先进行编译
+
+```bash
+$ g++ libx264-161.dll test.cpp -o test.exe
+```
+
+然后执行
+
+```bash
+$ ./test.exe
+hello,x264
+```
+
+需要注意此时需要在编译中引入 `.dll` 文件，这是由于 `test.c` 中的 `#param commit` 指令**不再适用**，这个指令的意义是让 **VS 的编译器**在连接时自动连接对应库，但是 **gcc  不支持在代码中添加自动连接指令**（见[此问题](https://stackoverflow.com/questions/3974070/linking-with-a-pragma-with-g)），必须在编译指令中手动指定连接对象

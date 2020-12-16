@@ -6,7 +6,7 @@ import urllib.parse
 import hashlib
 
 mdFilePaths = glob.glob("docs/**/*.md", recursive=True)
-# print(mdFilePaths)
+# print(mdFilePaths)123
 # mdFiles = glob.glob("*.md")
 
 latexInLinePattern = r"\$([^\$]+)\$"
