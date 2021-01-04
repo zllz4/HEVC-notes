@@ -110,7 +110,8 @@ for mdFilePath in mdFilePaths:
         # print(os.path.join(mdFileDir, newMdFile))
         with open("_sidebar.md", "a", encoding="utf-8") as f:
             f.write("\n")
-            f.write(f"* [{newMdFile[:-3].split('_')[-1]}](<./{os.path.join(mdFileDir, newMdFile)}>)".replace('\\','/'))
+            # f.write(f"* [{newMdFile[:-3].split('_')[-1]}](<./{os.path.join(mdFileDir, newMdFile)}>)".replace('\\','/'))
+            f.write(f"* [{newMdFile[:-3].replace('_', ' ')}](<./{os.path.join(mdFileDir, newMdFile)}>)".replace('\\','/'))
             print(f"add {newMdFile} to SUMMARY")
 
 # 删除无引用的图片

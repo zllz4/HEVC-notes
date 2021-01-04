@@ -40,3 +40,4 @@
   * [熵编码](<./docs/CP8_熵编码/熵编码.md>)
 * **x264**
   * [x264 安装与 hello world](<./docs/CP11_x264/x264_安装与_hello_world.md>)
+  * [x264 使用](<./docs/CP11_x264/x264_使用.md>)
