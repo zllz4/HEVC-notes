@@ -25,7 +25,7 @@ x264_nal_t *nal;
         - present：用于选择压缩质量和编码速度之间的 trade off，一共有 ultrafast/superfast/veryfast/faster/fast/medium/slow/slower/veryslow/placebo 这些选项，越 fast 的压缩质量（包括压缩后码率与重建质量）越低，越 slow 的压缩质量越高，其中 placebo 经[此网站](https://magiclen.org/x264-preset/)测试耗时相比 veryslow 有几倍提升但是质量几乎没有增长，所以一般不选，其它情况下是在可容忍范围内选择最慢的 present
         - tune：依据某一特定的视频类型修改编码参数增强编码效果，有下面这几种选项（图截自[此 csdn 博客](https://blog.csdn.net/NB_vol_1/article/details/78363559)）
 
-            ![example_c_代码分析_42944](markdown_images/example_c_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90_42944.png)
+            ![example_c_代码分析_42944_1](markdown_images/example_c_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90_42944_1.png)
 
             还有一个 touhou 类型，直译为东方，~~可能是用于中国武打片或者印度歌舞片~~**没错这个类型的唯一目的就是[为了增强东方 Project 的游戏效果](https://www.reddit.com/r/touhou/comments/2vv6bh/til_a_parameter_in_the_x264_video_codec_was/)**  🤣
 
@@ -47,10 +47,12 @@ x264_nal_t *nal;
 
 ```c
 //Get default params for preset/tunnig
+//第一步，设置 preset 和 tune 模板
 if(x264_param_default_preset(&param, "medium", NULL) < 0)
     goto fail;
 
 //Configure non-default params
+//第二步，参数手动赋值
 param.i_csp = X264_CSP_I420;
 param.i_width = width;
 param.i_height = height;
@@ -59,13 +61,18 @@ param.b_repeat_headers = 1;
 param.b_annexb = 1;
 
 //Apply profile restrictions.
+//第三步，设置 profile 约束
 if(x264_param_apply_profile(&param, "high") < 0)
     goto fail;
 ```
 
-第一步调用 `x264_param_default_preset` 函数使用 Presents 中的 preset 和 tune 两个类型的模板来设置参数，对于 present，选择 "medium" 类型的模板，对于 tune，选择 NULL 即不使用。
+第一步调用 `x264_param_default_preset` 函数使用 **Presents** 中的 preset 和 tune 两个类型的模板来设置参数，`x264_param_default_preset` 函数的调用关系如下
 
-第二步手动赋值一些模板没有涉及到的参数，其中 `i_csp` 是色彩空间（i 指 int 类型），`i_width` 和 `i_height` 是图像长宽（这个是输入参数），`b_vfr_input` 标志是否允许可变帧率（b 指 `bool` 类型），1 是允许（默认值）0 是不允许，`b_repeat_headers` 标志是否在发送每个 IDR 帧前发一遍 SPS 和 PPS，`b_annexb` 标志是否使用 AnnexB 的码流封装形式（关于 AnnexB 的介绍见[此 csdn 博客](https://blog.csdn.net/yue_huang/article/details/75126155)）
+1. 调用 `x264_param_default` 函数设置所有默认参数
+2. 调用 `param_apply_preset` 函数按照传入的 preset 模板修改默认参数，其中 "medium" 是 ”不修改“，这是由于 `x264_param_default` 设计的默认配置就是属于 medium 类型的 preset
+3. 调用 `param_apply_tune` 函数设置 tune 模板，NULL 也是不设置。
+
+第二步手动赋值一些模板没有涉及到的参数，其中前缀 `i` 指 `int` 类型，前缀 `b` 指 `bool` 类型，`i_csp` 是色彩空间，`i_width` 和 `i_height` 是图像长宽（这个是输入参数），`b_vfr_input` 标志是否允许可变帧率，1 是允许（默认值）0 是不允许，`b_repeat_headers` 标志是否在发送每个 IDR 帧前发一遍 SPS 和 PPS，`b_annexb` 标志是否使用 AnnexB 的码流封装形式（关于 AnnexB 的介绍见[此 csdn 博客](https://blog.csdn.net/yue_huang/article/details/75126155)）
 
 第三步调用 `x264_param_apply_profile` 函数使用 high profile 来约束编码器参数，完成参数设置
 
@@ -78,7 +85,9 @@ if(x264_picture_alloc(&pic, param.i_csp, param.i_width, param.i_height) < 0)
     goto fail;
 ```
 
-输入参数是图像的长宽和色彩空间，根据此可以算出一帧图像需要消耗的存储空间大小，之后调用 `malloc` 函数完成空间申请
+输入参数是图像的长宽和色彩空间，`x264_picture_alloc` 函数的工作是首先对输入的 pic 结构体进行初始化（对一些参数赋予初值），之后根据色彩空间 `i_csp` 和长宽算出图片每一个颜色分量（比如 YUV 分量）数据所需要的空间大小，得到图片数据的总大小 `frame_size`，然后调用 `x264_malloc` 函数申请 `frame_size` 大小的空间，最后将得到的空间划分分配给每个颜色分量。
+
+在这步操作之后，`pic->img.plane[i]` 指向的空间才真正具有意义。
 
 ### 2.4 初始化编码器
 
@@ -90,11 +99,15 @@ if(!h)
     goto fail;
 ```
 
-这个 `x264_encoder_open` 函数中调用了较多的初始化函数，具体分析可以见[雷神博客](https://blog.csdn.net/leixiaohua1020/article/details/45644367)（我还没太看懂，看懂就写）
+`x264_encoder_open` 函数将在之后介绍，其重要流程是新建一个 `x264_t` 类型的结构体，为这一结构体分配空间然后将 `param` 中包含包含的参数复制过去，之后则是对该 `x264_t` 结构体的其它一些参数进行初始化，这里比较重要的是在初始化过程中程序会选择**具体执行编码中预测、DCT 变换、量化等操作使用的函数**，如果系统支持某一特定的指令集，那么程序会选择对应指令集的汇编版本函数进行加速，如果没有则选择默认的 c 语言版本函数。在初始化结束后，`x264_encoder_open` 会输出一些控制信息，包括档次、等级、色度亚采样格式和比特深度，就是前文 [x264 使用] 章节中展示的编码输出的这一行
+
+```c
+x264 [info]: profile High, level 1.3, 4:2:0, 8-bit
+```
 
 ## 3 图像编码与输出
 
-example.c 的图像编码/输出部分涵盖在这个 for 循环中
+`example.c` 的图像编码/输出部分涵盖在这个 for 循环中
 
 ```c
 for(;;i_frame++)
@@ -121,11 +134,11 @@ for(;;i_frame++)
 }
 ```
 
-首先使用 `fread` 读取图片至 YUV 分量的存储空间中，之后使用 `x264_encoder_encode` 进行编码（这个函数又是各种看不懂），`x264_encoder_encode` 的功能是编码一帧的图像，其输入是编码器状态参数 `h`，输入图像 `pic`，输出是编码码流 `nal`（还有一个 `i_nal` 可能是指图像编码形成的 NAL 单元数量（存疑））和重建图像 `pic_out`。
+首先使用 `fread` 读取图片至 YUV 分量的存储空间中，之后使用 `x264_encoder_encode` 进行编码，`x264_encoder_encode` 的功能是编码一帧的图像，其输入是编码器状态参数 `h`，输入图像 `pic`，输出是编码码流 `nal`（还有一个 `i_nal` 可能是指图像编码形成的 NAL 单元数量）和重建图像 `pic_out`。
 
 `x264_encoder_encode` 函数本身并没有涵盖具体的编码行为，其主要做的是一些编码前的准备工作，包括将输入图片数据复制进一个 `x264_frame_t` 类型的结构体 `fenc` 中，这个结构体可以视为 `x264_picture_t` 的加强版，在 YUV 数据之外也增加了许多与**该帧有关的编码相关信息**的存储，比如这个图片的类型（I/B/P），它的参考帧关系，它的编码 QP，编码序号，还有一些分块和环路滤波相关参数等等，由于多了很多参数，所以 `x264_encoder_encode` 函数后面大段大段代码都是在给这些参数初始化，初始化好之后把 `fenc` 推送到**帧类型决策等待序列**中，这个序列在代码中为 `h->lookahead->next`，然后从**已经决策完毕帧类型的待编码序列**中取出一帧，进行编码，这个序列在代码中为 `h->frames.current`。
 
-这里需要解释一下这个操作，在编码过程中，由于帧间参考关系或是其它一些原因，图像的编码顺序和播放顺序可能不同，这就会造成时延，比如当前输入的帧是 A，它要参考之后输入的下一帧 B，那么当前 A 就不能编码，等到下一帧 B 帧到来时 B 先编码，然后 A 后编码，此时假设 B 帧的编码是实时的，那么 A B 两帧输入需要两个时间单位，但是输出需要三个时间单位，此时就有一个时间单位的延时。延时会造成等待，在第三个时间段假设有个 C 图像输入，那么在 x264 的编码流程中， C 图像就需要被送到**帧类型决策等待序列**，然后我们从**已经决策完毕帧类型的待编码序列**中取出一张图像，即 A 图像，对 A 图像进行编码。在第四个时间段 D 图像输入，此时编码器先将 D 图像也加入**帧类型决策等待序列**，然后检测**已经决策完毕帧类型的待编码序列**，发现里面为空，那么便开始对**帧类型决策等待序列**中的图片进行帧类型决策，发现 C 依赖 D（这里是猜想，不清楚决策帧类型时是否会决策依赖关系），因此 D 放到待编码序列首位，C 放到后位，然后从待编码序列中取出一帧 D 进行编码，以此类推，在 `example.c` 后面还有一段代码输出 delayed frames（如下），这些 delayed frames 的存在可能也是部分由于这个原因
+这里需要解释一下这个操作，在编码过程中，由于帧间参考关系或是其它一些原因，图像的编码顺序和播放顺序可能不同，这就会造成时延，比如当前输入的帧是 A，它要参考之后输入的下一帧 B，那么当前 A 就不能编码，等到下一帧 B 帧到来时 B 先编码，然后 A 后编码，此时假设 B 帧的编码是实时的，那么 A B 两帧输入需要两个时间单位，但是输出需要三个时间单位，此时就有一个时间单位的延时。延时会造成等待，在第三个时间段假设有个 C 图像输入，那么在 x264 的编码流程中， C 图像就需要被送到**帧类型决策等待序列**，然后我们从**已经决策完毕帧类型的待编码序列**中取出一张图像，即 A 图像，对 A 图像进行编码（即**编码函数的输入图片与当前编码的图片不一定相同**）。在第四个时间段 D 图像输入，此时编码器先将 D 图像也加入**帧类型决策等待序列**，然后检测**已经决策完毕帧类型的待编码序列**，发现里面为空，那么便开始对**帧类型决策等待序列**中的图片进行帧类型决策，发现 C 依赖 D（这里是猜想，不清楚决策帧类型时是否会决策依赖关系），因此 D 放到待编码序列首位，C 放到后位，然后从待编码序列中取出一帧 D 进行编码，以此类推，在 `example.c` 后面还有一段代码输出 delayed frames（如下），这些 delayed frames 的存在可能也是部分由于这个原因
 
 ```c
 //Flush delayed frames
