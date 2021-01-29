@@ -73,4 +73,4 @@ HEVC 的官方网站：[[地址](https://hevc.hhi.fraunhofer.de/)]
 
 视频编码标准的发展示意图如下（图片来源 [维基百科](https://zh.wikipedia.org/wiki/視訊壓縮)）
 
-![HEVC_46112](markdown_images/HEVC_46112.png)
+![HEVC_9088346112](markdown_images/HEVC_9088346112.png)

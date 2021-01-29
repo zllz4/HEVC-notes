@@ -25,7 +25,7 @@ x264_nal_t *nal;
         - present：用于选择压缩质量和编码速度之间的 trade off，一共有 ultrafast/superfast/veryfast/faster/fast/medium/slow/slower/veryslow/placebo 这些选项，越 fast 的压缩质量（包括压缩后码率与重建质量）越低，越 slow 的压缩质量越高，其中 placebo 经[此网站](https://magiclen.org/x264-preset/)测试耗时相比 veryslow 有几倍提升但是质量几乎没有增长，所以一般不选，其它情况下是在可容忍范围内选择最慢的 present
         - tune：依据某一特定的视频类型修改编码参数增强编码效果，有下面这几种选项（图截自[此 csdn 博客](https://blog.csdn.net/NB_vol_1/article/details/78363559)）
 
-            ![example_c_代码分析_42944_1](markdown_images/example_c_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90_42944_1.png)
+            ![example_c_代码分析_6319442944](markdown_images/example_c_%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90_6319442944.png)
 
             还有一个 touhou 类型，直译为东方，~~可能是用于中国武打片或者印度歌舞片~~**没错这个类型的唯一目的就是[为了增强东方 Project 的游戏效果](https://www.reddit.com/r/touhou/comments/2vv6bh/til_a_parameter_in_the_x264_video_codec_was/)**  🤣
 
@@ -35,7 +35,7 @@ x264_nal_t *nal;
     - **输入/输出（Input/Output）**：指定输入和输出的文件格式，包括指定输入文件的色彩空间、分辨率，编码起始帧，总编码帧数和输出文件的文件名，格式，帧率，色彩空间等
     - **滤镜（Filtering）**：用于设置滤镜在**编码前**处理视频
 
-    以上这些输入参数经过处理后送至 `x264_param_t` 进行存储。[这个 csdn 博客](https://blog.csdn.net/yue_huang/article/details/79309696)对 x264 的输入参数有比较详细的介绍，[这个 csdn 博客](https://blog.csdn.net/NB_vol_1/article/details/78362825)对 `x264_param_t` 中的各个成员有着比较详细的介绍。
+    以上这些输入参数经过处理后送至 `x264_param_t` 进行存储。[此 wiki](https://www.nmm-hd.org/d/index.php?title=X264%E8%A8%AD%E5%AE%9A&variant=zh) 对 x264 的输入参数有比较详细的介绍，[这个 csdn 博客](https://blog.csdn.net/NB_vol_1/article/details/78362825)对 `x264_param_t` 中的各个成员有着比较详细的介绍。
 
 - `x264_picture_t` 是用来**存储输入和重建的视频图像**的结构体，其中 `pic` 存储输入的一帧视频，`pic_out` 存储重建的一帧视频。在 `x264_picture_t` 的成员中有一个 `x264_image_t` 结构体（名为 `img`），这个 `x264_image_t` 的成员里有一个名为 `plane` 的指针数组，这个指针数组的每个成员都是一个 `uint8` 指针，**分别指向图像的每个颜色分量的存储空间**，因此，对于常用的 YUV422 格式来说，`pic.img.plane[0]` 为图像 Y 分量数据的存储空间首地址，`pic.img.plane[1]` 为图像 U 分量数据的存储空间首地址，`pic.img.plane[2]` 为图像 V 分量数据的存储空间首地址。
 - `x264_t` 是用来**存储编码器状态**的结构体，从某种意义上来说，它也可以视为**编码器本身**，或者**编码器的句柄**，x264 中所有与编码器相关的函数都要用到这个结构体，所有编码过程中需要全局性保存（或者缓存）的参数也基本都被塞到了这个结构体上，包括已经编码的宏块缓存，当前的参考帧列表，当前编码的帧序号，当前编码的宏块位置，当前已编码数据的输出码流等等，前面提到的输入参数 `x264_param_t` 结构体在初始化编码器时也将被塞到 `x264_t` 结构体里面作为一个成员（名为 `param`）存储。基于这个结构体定义的指针变量一般被命名为 `h`。

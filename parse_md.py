@@ -61,7 +61,7 @@ def parseMdFiles(partName, mdFilePaths):
                 picData = f.read()
 
             # 获取图片内容的 hash 值作为图片文件名，得到 stdPicPath 初始值
-            hash_num = int(int(hashlib.md5(picData).hexdigest(), 16) % 1e5)
+            hash_num = int(int(hashlib.md5(picData).hexdigest(), 16) % 1e10)
             stdPicPath = f"markdown_images/{stdMdFile[:-3]}_{hash_num}.{picPathDecode.split('.')[-1]}"
 
             # 若图片文件名符合要求，则此轮循环结束
@@ -69,13 +69,13 @@ def parseMdFiles(partName, mdFilePaths):
                 continue
 
             # for debug
-            print(f"{picPathDecode} != {stdPicPath}")
+            # print(f"{picPathDecode} != {stdPicPath}")
 
             # 获取最终的 stdPicPath
-            i = 0
-            while os.path.isfile(os.path.join(mdFileDir, stdPicPath)):
-                i = i + 1
-                stdPicPath = f"markdown_images/{stdMdFile[:-3]}_{hash_num}_{i}.{picPathDecode.split('.')[-1]}"
+            # i = 0
+            # while os.path.isfile(os.path.join(mdFileDir, stdPicPath)):
+            #     i = i + 1
+            #     stdPicPath = f"markdown_images/{stdMdFile[:-3]}_{hash_num}_{i}.{picPathDecode.split('.')[-1]}"
             stdPicPathEncode = urllib.parse.quote(stdPicPath)
 
             # stdPicName
@@ -88,11 +88,6 @@ def parseMdFiles(partName, mdFilePaths):
 
             content = re.sub(r"\(\<?"+picPath+r"\>?\)", f"({stdPicPathEncode})", content)
             content = re.sub(r"\["+picName+r"\]", f"[{stdPicName}]", content)
-            
-        #     picRemoveList.append(picPathDecode)
-        # for pic in set(picRemoveList):
-        #     os.remove(os.path.join(mdFileDir, pic))
-
 
         # rename markdown file and clear the notion exported dir
         with open(os.path.join(mdFileDir, stdMdFile), "w", encoding="utf-8") as f:
@@ -100,13 +95,13 @@ def parseMdFiles(partName, mdFilePaths):
         if stdMdFile != mdFile:
             print(f"Move {mdFile} to {stdMdFile}")
             os.remove(mdFilePath)
-            notionImagePath = os.path.join(mdFileDir, mdFile[:-3].split('_')[-1])
-            if os.path.isdir(notionImagePath):
-                print(f"Remove {notionImagePath} Directory")
-                os.removedirs(notionImagePath)
-            else:
-                # for debug
-                print(f"{notionImagePath} is not a dir")
+            # notionImagePath = os.path.join(mdFileDir, mdFile[:-3].split('_')[-1])
+            # if os.path.isdir(notionImagePath):
+            #     print(f"Remove {notionImagePath} Directory")
+            #     os.removedirs(notionImagePath)
+            # else:
+            #     # for debug
+            #     print(f"{notionImagePath} is not a dir")
         
         # update sidebar
         if not os.path.isfile(f"docs/{partName}/_sidebar.md"):
@@ -129,6 +124,7 @@ def clearRedundantResource():
     ''' 清除无引用的图片和空文件夹 '''
     print()
     # 删除无引用的图片
+    print("开始清理冗余图片")
     imgFilePaths = glob.glob("docs/**/*.png", recursive=True)
     for imgFilePath in imgFilePaths:
         imgFileNameEnecode = urllib.parse.quote(os.path.basename(imgFilePath))
@@ -147,6 +143,7 @@ def clearRedundantResource():
             os.remove(imgFilePath)
 
     # 删除空文件夹
+    print("开始清理空文件夹")
     files = glob.glob("docs/**/*", recursive=True)
     for file_ in files:
         if os.path.isdir(file_) and (not os.listdir(file_)):

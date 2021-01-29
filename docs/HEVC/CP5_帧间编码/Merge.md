@@ -12,7 +12,7 @@ Merge 模式是帧间编码中进行运动估计的方法之一，其特点为�
 
 Merge 模式允许**五个运动向量预测候选**，其**从五个候选中选出一个率失真最小的最佳候选**作为当前 PU 区块的运动向量。五个候选将从**五个空域位置**和**一个时域位置**中产生，如下图
 
-![Merge_43648](markdown_images/Merge_43648.png)
+![Merge_2902043648](markdown_images/Merge_2902043648.png)
 
 ### 1.3 空域候选
 
@@ -24,7 +24,7 @@ Merge 模式允许**五个运动向量预测候选**，其**从五个候选中�
 
 1. 检查**是否两个候选含有相同的运动信息**，需要按以下顺序进行五次比较，比较顺序如下
 
-    ![Merge_49568](markdown_images/Merge_49568.png)
+    ![Merge_960749568](markdown_images/Merge_960749568.png)
 
 2. 检查**是否当前块加上候选块可正好组成当前块所属的 CU**，这种情况下如果对该候选块进行 Merge 操作，就等价于先把一个 CU 划分成两个 PU，然后又用 Merge 把这两个 PU 合起来，这样对 CU 的划分就没有意义了，所以要避免这种情况
 
@@ -32,7 +32,7 @@ Merge 模式允许**五个运动向量预测候选**，其**从五个候选中�
 
     图示如下
 
-    ![Merge_75296](markdown_images/Merge_75296.png)
+    ![Merge_3509175296](markdown_images/Merge_3509175296.png)
 
     对于 (a)，A1 没了，对于 (b)，B1 没了，没了的原因是如果 PU1 参考 PU2，那么就等价于这个 CU 不分割成两个 PU
 
@@ -40,13 +40,13 @@ Merge 模式允许**五个运动向量预测候选**，其**从五个候选中�
 
 时域候选从**同位图片**（co-located  picture）**里选择合适的候选区块，其 MV 经过 scale 后作为 TMVP**（temporal motion vector predictor）**候选**，如图 5.4(a)，右下区块 **C0 被优先考虑**，中心区块 **C1 被第二考虑。**HEVC 只允许存在 1 个时域候选。 
 
-![Merge_53344](markdown_images/Merge_53344.png)
+![Merge_9652153344](markdown_images/Merge_9652153344.png)
 
 > 右下区块是指右下角的那个正对的像素所属的区块，至于中间区块是怎么判断的还不知道
 
 MV Scaling 的公式如下图，其理解可以看上图的公式 4-2，一些奇奇怪怪的操作是干嘛的我也不懂
 
-![Merge_22944](markdown_images/Merge_22944.png)
+![Merge_1687122944](markdown_images/Merge_1687122944.png)
 
 以下是关于公式变量的说明：
 
@@ -62,7 +62,7 @@ Merge 模式候选列表长度是**固定**的，但是因某些原因可用的�
 
 B slice 将首先采用**结合已有候选的数据产生新的候选**的方式产生额外候选，按照如下顺序结合前 0~3 号候选产生额外候选
 
-![Merge_50720](markdown_images/Merge_50720.png)
+![Merge_7515550720](markdown_images/Merge_7515550720.png)
 
 首先结合 0 号候选的参考序列 0 的运动信息和 1 号候选参考序列 1 的运动信息产生新的候选，如果不行，那么尝试结合 1 号候选的参考序列 0 的运动信息和 0 号候选参考序列 1 的运动信息，以此类推
 
@@ -81,7 +81,7 @@ Merge 模式需要以下标志位
 3. `five_minus_max_num_merge_cand` ：Slice 层次，在 slice 头部由定义，表明 **Merge 模式候选列表的长度**，其值为默认长度（5）与实际长度的差值
 4. `skip_flag`：CU 层次（但这个 CU 一定要按照 2Nx2N 划分 PU，所以其实也是 PU 层次），标志**此 CU 为 skip 模式**，skip 模式的意义如下
 
-    ![Merge_74432](markdown_images/Merge_74432.png)
+    ![Merge_8013074432](markdown_images/Merge_8013074432.png)
 
     skip 模式**不传输 MVD**，也**不传输残差**
 
@@ -95,9 +95,9 @@ HEVC 可以通过 `sps_temporal_mvp_enabled_flag` 或者 `slice_temporal_mvp_ena
 
 同位图片的选择由 slice 类型、`collocated_from_l0_flag` 和 `collocated_ref_idx` 确定，其规则如下
 
-![Merge_43008](markdown_images/Merge_43008.png)
+![Merge_1712043008](markdown_images/Merge_1712043008.png)
 
-![Merge_66176](markdown_images/Merge_66176.png)
+![Merge_4370866176](markdown_images/Merge_4370866176.png)
 
 每张图片上的**所有 PU 均采用同一张图片作为同位图片**（co-located picture），同位图片**在参考图片序列 0 或 1**（reference picture list 0/1）**中进行选择**，由 `collocated_from_l0_flag` 确定，具体索引则由 `collocated_ref_idx` 确定，其选择操作在片头（slice header）解码后进行，虽然这个变量是 slice 层次的（一张图片包含多个 slice），但是一张图片的所有 slice 的同位图片都必须相同
 
@@ -109,4 +109,4 @@ Q：为什么要使用 Merge？
 
 A：因为四叉树的划分方式会造成一些冗余的区块，所谓冗余，是指**不同的区块拥有相同的运动信息**，比如下图，（b）为对含有运动物体图片的 CU 划分，将拥有相同运动信息的区块合并，可以得到（c），对比 （b）（c）可以发现冗余区块占据了相当比例，因此采用 Merge 方法能够有效的缓解这种冗余区块带来的性能损失
 
-![Merge_98560](markdown_images/Merge_98560.png)
+![Merge_3167298560](markdown_images/Merge_3167298560.png)

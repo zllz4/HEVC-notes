@@ -12,7 +12,7 @@ AMVP 是帧间预测中运动估计的另一个方法，相比于 Merge 模式�
 
 AMVP 允许**两个运动向量预测候选**，从这两个候选中选择率失真最小的 MV **作为 MV 搜索过程的起点**。运动向量候选将从**五个空域位置**和**一个时域位置**中产生，如下图，这些位置与 Merge 模式中的情况相同
 
-![AMVP_43648](markdown_images/AMVP_43648.png)
+![AMVP_2902043648](markdown_images/AMVP_2902043648.png)
 
 ### 2.2 空域候选
 
@@ -20,7 +20,7 @@ AMVP 允许**两个运动向量预测候选**，从这两个候选中选择率�
 
 AMVP 先尝试选出两个空域候选，如果没有，才进行时域候选的选择。空域候选选择的规则如下
 
-![AMVP_26208](markdown_images/AMVP_26208.png)
+![AMVP_7256926208](markdown_images/AMVP_7256926208.png)
 
 #### 2.2.2 A 候选选择步骤
 
@@ -70,7 +70,7 @@ TZSearch 的代码见 HM 中的 **`TEncSearch::xTZSearch`** 函数，其操作�
 
 1. 搜素起始点为当前待预测区块通过 AMVP 的 MV 预测步骤找到的 MVP 进行反向位移得到的区域
 
-    ![AMVP_39840](markdown_images/AMVP_39840.png)
+    ![AMVP_3141539840](markdown_images/AMVP_3141539840.png)
 
     > 它这里是一个点，可能是覆盖的区域上取一个点表示这个区域，反正后面计算 MV 时候的位移可以看作是点到点之间的位移，也可以看作是区域到区域之间的位移
 
@@ -78,17 +78,17 @@ TZSearch 的代码见 HM 中的 **`TEncSearch::xTZSearch`** 函数，其操作�
 
     菱形模板如下
 
-    ![AMVP_4960](markdown_images/AMVP_4960.png)
+    ![AMVP_7944104960](markdown_images/AMVP_7944104960.png)
 
     正方形模板如下（这两个模板似乎搜索的点是一样的？）
 
-    ![AMVP_14560](markdown_images/AMVP_14560.png)
+    ![AMVP_4667714560](markdown_images/AMVP_4667714560.png)
 
     > 顺时针还是逆时针？
 
 3. 若最优点**步长为 1**，则进行**两点搜索，搜索尚未搜索的点中离最优点最近的两个点**，示意图如下
 
-    ![AMVP_99808](markdown_images/AMVP_99808.png)
+    ![AMVP_5546999808](markdown_images/AMVP_5546999808.png)
 
     如最优点为 2，则搜 a，b（黑点上面有字！），若最优点为 6，则搜 e，g，几个黑点周围的点都被搜索过了
 

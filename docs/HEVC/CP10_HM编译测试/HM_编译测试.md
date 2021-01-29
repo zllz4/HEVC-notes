@@ -10,7 +10,7 @@ HM 编辑测试流程如下
 
 1. 从[此网站](https://vcgit.hhi.fraunhofer.de/jct-vc/HM)下载 HM 16.20 版本（HM 16.20 版本之后的版本没有 sln 文件），按下图方式选择版本
 
-    ![HM_编译测试_82240](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_82240.png)
+    ![HM_编译测试_2575882240](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_2575882240.png)
 
 2. 打开某个版本的 sln（位于 `HM-HM-16.20\build`），vs 会默认提示你是否要升级，选择升级（重定向）到你的 vs 的工具集版本
 
@@ -22,18 +22,18 @@ HM 编辑测试流程如下
 
     图示如下
 
-    ![HM_编译测试_32704](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_32704.png)
+    ![HM_编译测试_7775432704](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_7775432704.png)
 
 4. **编译解码器**，选择 `TAppDecoder`，设为启动项目，按 F5 编译，此时可以在 `HM-HM-16.20\bin\vc2015\Win32\Debug` 目录下找到 `TAppEncoder.exe` 和 `TAppDecoder.exe`
 5. 从[此网站](https://blog.csdn.net/abcSunl/article/details/53841953)中下载视频测试文件，**CTC**（Common Test Condition）中定义的视频测试序列如下
 
-    ![HM_编译测试_11008](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_11008.png)
+    ![HM_编译测试_4656811008](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_4656811008.png)
 
-    ![HM_编译测试_31008](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_31008.png)
+    ![HM_编译测试_6191531008](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_6191531008.png)
 
 6. 5 步骤下载下来的视频是 `.yuv` 格式的，从[此网站](https://github.com/IENT/YUView/releases)下载能够查看 `.yuv` 格式视频的播放器，下载完成后试验一下能否打开，正常结果如下
 
-    ![HM_编译测试_61952](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_61952.png)
+    ![HM_编译测试_7028861952](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_7028861952.png)
 
     按一下空格开始播放，再按一下暂停，这个软件可以查看视频文件的**实际帧数**，有时候视频文件的实际帧数会比之前表格上写的多一帧，多出来那个是黑底白字的版权说明
 
@@ -65,17 +65,17 @@ HM 编辑测试流程如下
 10. 可以将上文中的 `encoder_intra_main.cfg` 更换为 `cfg` 文件夹的以下配置，提供不同的编码功能，使用方法同上，把配置复制过去然后 `-c` 引用
     - `encoder_intra_main.cfg`：纯 I 帧编码，8/10 bit 输入，**全部 8 bit 输出**，使用 potplayer 播放时会发现可以拖动进度条到任意位置（因为**每一帧都可以作为随机切入点**），压缩率**低**，其编码输出帧序列的结构示意图如下
 
-        ![HM_编译测试_68608](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_68608.png)
+        ![HM_编译测试_2294468608](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_2294468608.png)
 
     - `encoder_lowdelay.cfg/encoder_lowdelay_P.cfg`： 第一个 I 帧之后全是 B/P 帧，B/P 帧**只参考播放顺序在其之前的帧**而不参考播放顺序在其之后的帧，因此可以达到**低延时**（lowdelay），使用 potplayer 播放时会发现无法拖动进度条（因为**不存在随机切入点**），压缩率**高**，其编码输出帧序列的结构示意图如下
 
-        ![HM_编译测试_63744](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_63744.png)
+        ![HM_编译测试_7448863744](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_7448863744.png)
 
         > low_delay_P 相比 low_delay 而言编解码复杂度更低，因为其只需要参考前面一个帧（low_delay 要参考前面两个帧），然而压缩效果略差，不过就实际效果而言似乎差不多
 
     - `encoder_randomaccess.cfg`：每 16 帧一组，每组以 I 帧开头，后面是 B 帧，**B 帧的参考结构具有层次性**，上层 B 帧参考下层 B 帧，**间隔性插入 I 帧**来阻止误差传播以及作为随机切入点，具有最高的压缩率以及**最长的延时**（由于 RA 中存在**后向参考**，导致**解码顺序不等于播放顺序**，播放时需要等待播放顺序在当前帧之后的帧解码才能播放当前帧，**造成延时增大**，这也是前面只参考前面帧的配置方式被称为“低延时”的原因），使用 potplayer 播放时会发现可以在某些位置拖动进度条（因为**存在部分帧作为随机切入点**），压缩率**高**，其编码输出帧序列的结构示意图如下
 
-        ![HM_编译测试_44832](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_44832.png)
+        ![HM_编译测试_5220344832](markdown_images/HM_%E7%BC%96%E8%AF%91%E6%B5%8B%E8%AF%95_5220344832.png)
 
     - `encoder_xxx_main10.cfg`：xxx 为 `intra` 或 `lowdelay` 等，功能等同于 `encoder_xxx.cfg` 的功能，只不过**输入输出情况不同**，此时为 8/10 bit 输入，**全部 10 bit 输出**
 11. 在 vs 中可以调整生成的 exe 属于 debug 环境还是 release 环境，之前默认生成的是 debug 环境，事实上 release 环境生成的 exe 文件编码速度比 debug 生成的 exe 文件快的多
