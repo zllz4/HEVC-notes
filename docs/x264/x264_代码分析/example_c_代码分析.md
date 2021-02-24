@@ -85,7 +85,7 @@ if(x264_picture_alloc(&pic, param.i_csp, param.i_width, param.i_height) < 0)
     goto fail;
 ```
 
-输入参数是图像的长宽和色彩空间，`x264_picture_alloc` 函数的工作是首先对输入的 pic 结构体进行初始化（对一些参数赋予初值），之后根据色彩空间 `i_csp` 和长宽算出图片每一个颜色分量（比如 YUV 分量）数据所需要的空间大小，得到图片数据的总大小 `frame_size`，然后调用 `x264_malloc` 函数申请 `frame_size` 大小的空间，最后将得到的空间划分分配给每个颜色分量。
+输入参数是图像的长宽和色彩空间，`x264_picture_alloc` 函数的工作是首先对输入的变量 `pic` 指向的 `x264_picture_t` 结构体进行初始化（对一些参数赋予初值），之后根据色彩空间 `i_csp` 和长宽算出图片每一个颜色分量（比如 YUV 分量）数据所需要的空间大小，得到图片数据的总大小 `frame_size`，然后调用 `x264_malloc` 函数申请 `frame_size` 大小的空间，最后将得到的空间划分分配给每个颜色分量。
 
 在这步操作之后，`pic->img.plane[i]` 指向的空间才真正具有意义。
 
@@ -112,8 +112,8 @@ x264 [info]: profile High, level 1.3, 4:2:0, 8-bit
 ```c
 for(;;i_frame++)
 {
-		/* ------------------ 编码部分 ------------------- */
-    //Read input frame
+    /* ------------------ 编码部分 ------------------- */
+    // 读取图片数据
     if(fread(pic.img.plane[0], 1, luma_size, fp_src)!=luma_size)
         break;
     if(fread(pic.img.plane[1], 1, chroma_size, fp_src)!=chroma_size)
@@ -122,26 +122,20 @@ for(;;i_frame++)
         break;
 
     pic.i_pts = i_frame;
+    // 进行编码
     i_frame_size = x264_encoder_encode(h, &nal, &i_nal, &pic, &pic_out);
-		/* ------------------ 输出部分 ------------------- */
+    /* ------------------ 输出部分 ------------------- */
     if(i_frame_size < 0)
         goto fail;
     else if(i_frame_size)
     {
+        // 输出写入文件
         if(!fwrite(nal->p_payload, i_frame_size, 1, fp_dst))
             goto fail;
     }
 }
-```
 
-首先使用 `fread` 读取图片至 YUV 分量的存储空间中，之后使用 `x264_encoder_encode` 进行编码，`x264_encoder_encode` 的功能是编码一帧的图像，其输入是编码器状态参数 `h`，输入图像 `pic`，输出是编码码流 `nal`（还有一个 `i_nal` 可能是指图像编码形成的 NAL 单元数量）和重建图像 `pic_out`。
-
-`x264_encoder_encode` 函数本身并没有涵盖具体的编码行为，其主要做的是一些编码前的准备工作，包括将输入图片数据复制进一个 `x264_frame_t` 类型的结构体 `fenc` 中，这个结构体可以视为 `x264_picture_t` 的加强版，在 YUV 数据之外也增加了许多与**该帧有关的编码相关信息**的存储，比如这个图片的类型（I/B/P），它的参考帧关系，它的编码 QP，编码序号，还有一些分块和环路滤波相关参数等等，由于多了很多参数，所以 `x264_encoder_encode` 函数后面大段大段代码都是在给这些参数初始化，初始化好之后把 `fenc` 推送到**帧类型决策等待序列**中，这个序列在代码中为 `h->lookahead->next`，然后从**已经决策完毕帧类型的待编码序列**中取出一帧，进行编码，这个序列在代码中为 `h->frames.current`。
-
-这里需要解释一下这个操作，在编码过程中，由于帧间参考关系或是其它一些原因，图像的编码顺序和播放顺序可能不同，这就会造成时延，比如当前输入的帧是 A，它要参考之后输入的下一帧 B，那么当前 A 就不能编码，等到下一帧 B 帧到来时 B 先编码，然后 A 后编码，此时假设 B 帧的编码是实时的，那么 A B 两帧输入需要两个时间单位，但是输出需要三个时间单位，此时就有一个时间单位的延时。延时会造成等待，在第三个时间段假设有个 C 图像输入，那么在 x264 的编码流程中， C 图像就需要被送到**帧类型决策等待序列**，然后我们从**已经决策完毕帧类型的待编码序列**中取出一张图像，即 A 图像，对 A 图像进行编码（即**编码函数的输入图片与当前编码的图片不一定相同**）。在第四个时间段 D 图像输入，此时编码器先将 D 图像也加入**帧类型决策等待序列**，然后检测**已经决策完毕帧类型的待编码序列**，发现里面为空，那么便开始对**帧类型决策等待序列**中的图片进行帧类型决策，发现 C 依赖 D（这里是猜想，不清楚决策帧类型时是否会决策依赖关系），因此 D 放到待编码序列首位，C 放到后位，然后从待编码序列中取出一帧 D 进行编码，以此类推，在 `example.c` 后面还有一段代码输出 delayed frames（如下），这些 delayed frames 的存在可能也是部分由于这个原因
-
-```c
-//Flush delayed frames
+/* ------------------ 输出延迟帧 ------------------- */
 while(x264_encoder_delayed_frames(h))
 {
     i_frame_size = x264_encoder_encode(h, &nal,&i_nal, NULL, &pic_out);
@@ -155,8 +149,52 @@ while(x264_encoder_delayed_frames(h))
 }
 ```
 
-在获取到当前要编码的帧之后，`x264_encoder_encode` 会继续进行准备工作，首先，其通过 `reference_update` 函数更新参考帧列表（即解码图像缓存 DPB），如果当前帧是关键帧（keyframe，也就是 IDR 帧），那么其会调用 `reference_reset` 函数清空参考帧列表。在参考帧列表更新完毕后，`x264_encoder_encode` 会调用 `reference_build_list` 函数根据当前参考帧列表生成当前帧的参考序列 ref list 0 和 ref list 1。之后进行码流的初始化，AUD（access unit 的分割符）以及 SPS、PPS 和 SEI NAL 单元的写入，在四个 NAL 单元写完之后调用 `slices_write` 函数开始真正的编码，在 `slices_write` 函数中的 `slice_write` 函数负责执行具体的编码行为，包括帧内帧间预测、变换量化和环路滤波等，这个 `slice_write` 函数的调用关系比较复杂，可以看[雷神的高清函数调用图](https://img-my.csdn.net/uploads/201505/06/1430897637_6272.jpg)。在上述编码结束后， `x264_encoder_encode` 将会调用 `encoder_frame_end` 函数结束编码，此函数会将编码结果转移到作为输出的 `x264_nal_t` 类型的变量 `nal` 中，同时将 `fdec`（与 `fenc` 对应的重建帧）的数据转移到同样作为输出的重建图像 `pic_out` 中。
+首先使用 `fread` 读取图片至 YUV 分量的存储空间中，之后使用 `x264_encoder_encode` 进行编码，`x264_encoder_encode` 的功能是编码一帧的图像，其输入是编码器状态参数 `h`，输入图像 `pic`，输出是编码码流 `nal`（还有一个 `i_nal` 可能是指图像编码形成的 NAL 单元数量）和重建图像 `pic_out`。
 
-在编码完成后，通过 `fwrite` 将输出码流 `nal->p_payload` 写入文件中。之所以只写入 `p_payload`，是因为根据 x264 官方给出的注释，`x264_nal_t` 虽然除了 `p_payload` 成员以外还有其它一些成员，比如表示 NAL 单元类型的 `i_type` 和表示 NAL 单元参考优先级的 `i_ref_idc`，但是这些成员实际上也是已经包含在 `p_payload` 里面的，在 `x264_nal_t` 里面把这些参数再重复一遍只是为了获取方便，因此没有必要把这些参数也一并写入。
+`x264_encoder_encode` 函数也将在之后进行介绍，其主要流程是做各种编码前的准备工作，然后调用 `slices_write` 函数进行帧编码。在编码前的准备工作中，`x264_encoder_encode` 函数首先将输入图片数据复制进一个 `x264_frame_t` 类型的结构体 `fenc` 中，这个结构体可以视为 `x264_picture_t` 的加强版，在 YUV 数据之外也增加了许多与**该帧有关的编码相关信息**的存储，比如这个图片的类型（I/B/P），它的参考帧关系，它的编码 QP，编码序号，还有一些分块和环路滤波相关参数等等，由于多了很多参数，所以 `x264_encoder_encode` 函数后面大段大段代码都是在给这些参数初始化，初始化好之后把 `fenc` 推送到**帧类型决策等待序列**中，这个序列在代码中为 `h->lookahead->next`，然后从**已经决策完毕帧类型的待编码序列**中取出一帧，进行编码，这个序列在代码中为 `h->frames.current`，这一取帧过程需要进行如下判断：
 
-对于重建图像，[此网站](https://blog.shengbin.me/posts/output-picture-in-x264-encoder-encode)给出了利用 `pic_out` 输出编码后重建视频的代码，不过未经测试。
+- 如果待编码序列中有帧，那么直接从中取一帧
+- 如果待编码序列为空（所有帧被取完了），那么对帧类型决策等待序列中的若干帧执行帧类型决策（决定其是 I/P/B 帧中的哪一种），然后将决策好的帧**按照编码顺序**放入待编码序列中，再从待编码序列中取出一帧
+
+这一步实现了**输入顺序到编码顺序的转换**。
+
+在获取到当前要编码的帧之后，`x264_encoder_encode` 会继续进行准备工作，首先，其通过 `reference_update` 函数更新参考帧列表（即解码图像缓存 DPB），如果当前帧是关键帧（keyframe，也就是 IDR 帧），那么其会调用 `reference_reset` 函数清空参考帧列表。在参考帧列表更新完毕后，`x264_encoder_encode` 会调用 `reference_build_list` 函数根据当前参考帧列表生成当前帧的参考序列 ref list 0 和 ref list 1。之后则进行码流的初始化，AUD（access unit 的分割符）以及 SPS、PPS 和 SEI NAL 单元的写入。
+
+在四个 NAL 单元写完之后， `x264_encoder_encode` 会调用 `slices_write` 函数开始真正的编码，这个函数将图片帧分成一个个 slice，然后对每个 slice 调用 `slice_write` 函数进行编码，`slice_write` 函数则遍历输入的 slice 的每一个宏块，先调用 `x264_macroblock_analyse` 函数对宏块进行分析，通过对宏块进行不同划分的帧内预测和帧间预测，确定其最佳的预测模式（帧内还是帧间）、划分方式（帧内可以有 9 种，帧间可以有 8 种）和运动向量（当最佳模式为帧间模式），再调用 `x264_macroblock_encode` 函数对宏块进行编码，对残差进行 dct 变换、量化、反量化、反变换，得到量化后的 dct 系数以及重建宏块，最后调用 CAVLC 或者 CABAC 的熵编码函数进行熵编码，得到编码码流。
+
+在 `slices_write` 函数运行结束后， `x264_encoder_encode` 将会调用 `encoder_frame_end` 函数结束当前帧的编码，此函数会将编码结果转移到作为输出的 `x264_nal_t` 类型的变量 `nal` 中，同时将 `fdec`（与 `fenc` 对应的重建帧）的数据转移到同样作为输出的重建图像 `pic_out` 中。
+
+在编码完成后，我们需要通过 `fwrite` 将输出码流 `nal->p_payload` 写入文件中。`x264_encoder_encode` 函数的返回值 `i_frame_size` 对应了输出码流的长度，在某些设置下（主要的影响因素是多线程和 B 帧），从输入到编码输出的过程存在延迟，因此会出现以下三种情况（这三种情况在下一章 [x264 的输入顺序、编码顺序、输出顺序与延迟] 有进一步介绍）：
+
+1. **某一帧图像数据输入，`x264_encoder_encode` 函数没有产生编码码流输出**（`i_frame_size` 为零）：这种情况往往会出现在**编码的开头**，编码器会先吞掉若干帧用于多线程 / lookahead 等一些目前还不太搞的清楚的操作，在这种情况下，程序不需要将任何数据写入文件，直接继续进行下一帧的编码
+2. **某一帧图像数据输入，`x264_encoder_encode` 函数产生了一帧的编码输出**（`i_frame_size` 不为零）：这种情况往往出现在**编码的中间过程**，此时编码器输入一帧，输出一帧，其表现与我们的正常认知相同，但是需注意，输出的一帧与输入的一帧并不一定是同一帧，这里存在从输入顺序到编码顺序的转换，在这种情况下我们需要做的处理就是检测 `i_frame_size`，当发现其不为零则将输出码流写入到文件中，也就是之前代码的这一段
+
+    ```c
+    else if(i_frame_size)
+    {
+        // 输出写入文件
+        if(!fwrite(nal->p_payload, i_frame_size, 1, fp_dst))
+            goto fail;
+    }
+    ```
+
+3. **没有编码图像数据输入，`x264_encoder_encode` 函数产生了一帧的编码输出**（`i_frame_size` 不为零）：这种情况往往出现在**编码的结尾**，此时所有的视频帧已经输入给编码器了，但是由于前面的第一种情况的存在，编码器并没有输出所有视频帧的编码结果，因此需要继续给编码器喂空白的输入，让它继续输出，直到所有的编码视频帧输出完毕。编码器是否存在被延迟的输出可以用 `x264_encoder_delayed_frames` 函数检测，因此在这种情况下我们需要不断使用空白输入调用编码函数获取输出直到此检测函数输出为零，也就是之前代码的这一段
+
+    ```c
+    /* ------------------ 输出延迟帧 ------------------- */
+    while(x264_encoder_delayed_frames(h)) // 检测是否有延迟帧
+    {
+        // 如果有延迟帧，以空白输入调用编码函数获取延迟帧
+        i_frame_size = x264_encoder_encode(h, &nal,&i_nal, NULL, &pic_out);
+        if(i_frame_size < 0)
+            goto fail;
+        else if(i_frame_size)
+        {
+            // 输出写入文件
+            if(!fwrite(nal->p_payload, i_frame_size, 1, fp_dst))
+                goto fail;
+        }
+    }
+    ```
+
+最后，对于重建图像，[此网站](https://blog.shengbin.me/posts/output-picture-in-x264-encoder-encode)给出了利用 `pic_out` 输出编码后重建视频的代码，不过未经测试。
