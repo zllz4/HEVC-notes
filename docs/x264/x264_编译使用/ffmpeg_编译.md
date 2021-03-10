@@ -203,4 +203,4 @@ AVCodec ff_h264_decoder = {
 };
 ```
 
-其中 `decode` 成员对应的是 `h264_decode_frame` 函数，说明最后编码用的是这个函数
+其中 `decode` 成员对应的是 `h264_decode_frame` 函数，说明最后解码用的是这个函数
