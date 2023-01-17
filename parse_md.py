@@ -151,14 +151,14 @@ def clearRedundantResource():
             print(f"remove empty directory {file_}")
 
 def main():
-    if len(sys.argv) < 2:
-        partNames = [i for i in os.listdir("docs\\") if os.path.isdir(f"docs\\{i}")]
-    else:
-        partNames = sys.argv[1:]
+    # if len(sys.argv) < 2:
+    #     partNames = [i for i in os.listdir("docs\\") if os.path.isdir(f"docs\\{i}")]
+    # else:
+    #     partNames = sys.argv[1:]
 
-    for partName in partNames:
-        mdFilePaths = getMdFiles(partName)
-        parseMdFiles(partName, mdFilePaths)
+    # for partName in partNames:
+    #     mdFilePaths = getMdFiles(partName)
+    #     parseMdFiles(partName, mdFilePaths)
     
     clearRedundantResource()
 
